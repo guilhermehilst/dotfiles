@@ -1,8 +1,8 @@
 # Dotfiles
 
 ## Objective
-This is my new dotfiles. It will replace my old repository
-[laptop](https://github.com/guilhermehilst/laptop)
+
+This is my new dotfiles. It will replace my old repository [laptop](https://github.com/guilhermehilst/laptop)
 
 ## NOTES
 
@@ -17,3 +17,18 @@ it to replace ( Ag - The Silver Searcher  )
 - Setup github cli ( gh  )
 - Setup tig
 - Search about lazygit
+- Markdown
+  - brew install markdownlint-cli2
+
+### Brew installs
+
+- Install nerd fonts
+
+```bash
+  # nerd fonts
+  brew install --cask font-ubuntu-mono-nerd-font
+  brew install --cask font-meslo-lg-nerd-font
+  # markdownlint 
+  brew install markdownlint-cli2
+  brew install pandoc
+```

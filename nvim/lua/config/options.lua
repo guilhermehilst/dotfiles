@@ -9,3 +9,4 @@ opt.ignorecase = true
 -- scrolling
 opt.number = true
 opt.relativenumber = false
+opt.cursorline = false

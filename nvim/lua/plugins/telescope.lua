@@ -17,6 +17,7 @@ return {
       pickers = {
         find_files = {
           -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          hidden = true,
           find_command = { "rg", "--files", "--glob", "!**/.git/*", "-L" },
         },
       },

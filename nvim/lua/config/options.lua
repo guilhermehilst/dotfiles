@@ -10,3 +10,6 @@ opt.ignorecase = true
 opt.number = true
 opt.relativenumber = false
 opt.cursorline = false
+
+-- Disable LazyVim auto format
+vim.g.autoformat = false

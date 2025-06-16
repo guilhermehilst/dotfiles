@@ -5,6 +5,7 @@ return {
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files Telescope" },
       { "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Find Files Telescope" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep Files Telescope" },
+      { "<leader>ag", "<cmd>Telescope live_grep<cr>", desc = "Live Grep Files Telescope" },
     },
     opts = {
       defaults = {
@@ -18,7 +19,7 @@ return {
         find_files = {
           -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
           hidden = true,
-          find_command = { "rg", "--files", "--glob", "!**/.git/*", "-L" },
+          find_command = { "rg", "--files", "--ignore-case", "--glob", "!**/.git/*", "-L" },
         },
       },
     },

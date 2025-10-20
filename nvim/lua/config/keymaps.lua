@@ -24,3 +24,11 @@ keymap.set("n", "<leader>c<leader>", ":normal gcc<CR><DOWN>", { desc = "Toggle c
 -- gc - toggles comment
 -- <CR> sends the command
 keymap.set("v", "<leader>c<leader>", "<Esc>:normal gvgc<CR>", { desc = "Toggle comment block" })
+
+
+-- LSP
+keymap.set("n", "<leader>li", "<Cmd>LspInfo<CR>", { desc = "LSP Info" })
+keymap.set("n", "<leader>ls", "<Cmd>LspStatus<CR>", { desc = "LSP Status" })
+keymap.set("n", "<leader>ld", "<Cmd>LspDiagnostics<CR>", { desc = "LSP Diagnostics" })
+keymap.set("n", "<leader>lc", "<Cmd>LspCapabilities<CR>", { desc = "LSP Capabilities" })
+keymap.set("n", "<leader>lr", "<Cmd>LspRestart<CR>", { desc = "LSP Restart" })

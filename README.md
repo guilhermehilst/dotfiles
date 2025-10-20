@@ -20,6 +20,7 @@ it to replace ( Ag - The Silver Searcher  )
 - Search about lazygit
 - Markdown
   - brew install markdownlint-cli2
+- Setup ftplugin
 
 ### Brew installs
 

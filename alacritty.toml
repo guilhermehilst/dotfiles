@@ -1,0 +1,61 @@
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 15
+
+[font.normal]
+#family = "UbuntuMono Nerd Font"
+family = "MesloLGS Nerd Font"
+
+# Font Offset Default x = 0; y = 0
+#[font.offset]
+#x = 1
+#y = 0
+
+[window.padding]
+x = 6
+y = 6
+
+[window]
+option_as_alt = "Both"
+dynamic_padding = false
+
+# Command + Return = FullScreen
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "Return"
+mods = "Command"
+
+# Disable Command + t (new tab)
+[[keyboard.bindings]]
+action = "None"
+key = "t"
+mods = "Command"
+
+# Disable Command + n (new window)
+[[keyboard.bindings]]
+action = "None"
+key = "n"
+mods = "Command"
+
+[general]
+# themes from https://github.com/alacritty/alacritty-theme
+
+#import = ["~/.config/alacritty/themes/themes/wombat.toml"]
+#import = ["~/.config/alacritty/themes/themes/gruvbox_dark.toml"]
+import = ["~/.config/alacritty/themes/themes/gruvbox_material_hard_dark.toml"]
+
+#[[mouse.bindings]]
+#action = "ExpandSelection"
+#mouse = "Left"
+#mods = "Alt"
+
+#[[hints.enabled]]
+#command = "open"
+#hyperlinks = true
+#post_processing = true
+#persist = false
+#mouse = { enabled = true, mods = 'Shift' }
+#regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"

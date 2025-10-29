@@ -1,3 +1,5 @@
+![logo](https://dotfiles.github.io/images/dotfiles-logo.png)
+
 # Dotfiles
 
 ## Objective
@@ -37,4 +39,10 @@ it to replace ( Ag - The Silver Searcher  )
 
 
 ### Dotfiles inspirations
+https://dotfiles.github.io/inspiration/
+
+https://github.com/mathiasbynens/dotfiles
+https://github.com/holman/dotfiles
+
 https://github.com/hmarr/dotfiles
+https://github.com/amandeepmittal/dotfiles

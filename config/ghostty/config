@@ -1,0 +1,31 @@
+# Theme
+theme = "Gruvbox Material Dark"
+# theme = "Ayu Mirage"
+
+# Fonts
+font-family = "MesloLGS Nerd Font"
+font-size =  14.5
+font-style = normal
+
+# Windows config
+title = "👻 Ghostty"
+window-width = 120
+window-height = 33
+window-padding-x = 6
+window-padding-y = 6
+window-padding-color = extend
+window-padding-balance = true
+
+# Scrollback limit (in bytes) - 100MB
+scrollback-limit = 100000000
+
+quit-after-last-window-closed = true
+
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# Disable Command + n (new window)
+keybind = command+n=ignore
+
+# Disable Command + t (new tab)
+keybind = command+t=ignore

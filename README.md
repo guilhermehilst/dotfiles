@@ -1,4 +1,4 @@
-![logo](https://dotfiles.github.io/images/dotfiles-logo.png)
+![logo](assets/dotfiles-logo.png)
 
 # Dotfiles
 
@@ -46,3 +46,7 @@ https://github.com/holman/dotfiles
 
 https://github.com/hmarr/dotfiles
 https://github.com/amandeepmittal/dotfiles
+
+
+### Passos:
+- Instalar [homebrew](https://brew.sh/)

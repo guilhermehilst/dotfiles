@@ -23,6 +23,8 @@ it to replace ( Ag - The Silver Searcher  )
 - Markdown
   - brew install markdownlint-cli2
 - Setup ftplugin
+- Screen saver: [Fliqlo](https://fliqlo.com/screensaver/)
+- speeding up OMZ - https://scottspence.com/posts/speeding-up-my-zsh-shell
 
 ### Brew installs
 
@@ -49,6 +51,7 @@ https://github.com/amandeepmittal/dotfiles
 
 https://github.com/theherk/commons
 
+https://github.com/driesvints/dotfiles
 
 ### Passos:
 - Instalar [homebrew](https://brew.sh/)

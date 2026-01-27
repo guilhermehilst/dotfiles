@@ -1,1 +1,11 @@
 .DS_Store
+
+
+# Claude Code
+config/claude/**/*
+!config/claude/commands/
+!config/claude/commands/*
+!config/claude/skills/
+!config/claude/skills/*
+!config/claude/agents/
+!config/claude/agents/*

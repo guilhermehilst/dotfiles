@@ -37,6 +37,7 @@ Com base nas alterações acima, crie um único commit git seguindo a especifica
 - **build**: mudanças no sistema de build ou dependências externas
 - **ci**: mudanças em arquivos de configuração de CI
 - **chore**: outras tarefas que não modificam código de produção
+- **update**: atualização de versões de bibliotecas e/ou ferramentas utilizadas
 - **revert**: reverte um commit anterior
 
 ## Diretrizes

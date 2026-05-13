@@ -1,6 +1,5 @@
 .DS_Store
 
-
 # Claude Code
 config/claude/**/*
 !config/claude/commands/
@@ -9,3 +8,5 @@ config/claude/**/*
 !config/claude/skills/*
 !config/claude/agents/
 !config/claude/agents/*
+
+/tmp/*

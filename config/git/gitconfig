@@ -1,0 +1,32 @@
+[include]
+  path = ~/.gitconfig.local
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+[init]
+  defaultBranch = main
+[core]
+  excludesfile = ~/.gitignore_global
+  editor = vim
+[pull]
+  rebase = true                           # Rebase (instead of merge) on pull
+[push]
+  autoSetupRemote = true                  # Automatically set upstream branch on push
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+[commit]
+  verbose = true                          # Include diff comment in commit message template
+[branch]
+  sort = -committerdate                   # Sort branches by most recent commit first
+[color]
+  ui = true
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true

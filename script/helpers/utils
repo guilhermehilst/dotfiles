@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+#
+
+set -e
+
+# Colors
+
+# Define colors, bold and reset
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
+PURPLE=$(tput setaf 5)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+
+info() {
+  printf "${BOLD}${PURPLE}$1${RESET}\n"
+}
+
+fail() {
+  printf "${BOLD}${RED}$1${RESET}\n"
+}
+
+success() {
+  printf "${BOLD}${GREEN}$1${RESET}\n"
+}
+
+user() {
+  printf "${BOLD}${BLUE}$1${RESET}\n"
+}
+
+bold() {
+  printf "${BOLD}$1${RESET}\n"
+}
+
+step_green() {
+  printf "${BOLD}${GREEN}==> ${RESET}${BOLD}$1${RESET}\n"
+}
+
+step_blue() {
+  printf "${BOLD}${BLUE}==> ${RESET}${BOLD}$1${RESET}\n"
+}
+
+move_to_backup_dir() {
+  local file_path="$1"
+  local current_path="$HOME/$file_path"
+  local backup_path="$HOME/.dotfiles-backup/$file_path"
+  local backup_dir="$(dirname "$backup_path")"
+
+  if [ ! -d "$backup_dir" ]; then
+    if ! mkdir -p "$backup_dir"; then
+      return 1
+    fi
+  fi
+
+  if mv "$current_path" "$backup_path"; then
+    success "✔ backup file moved to $backup_path"
+  fi
+
+  return $?
+}
+
+link_dotfile() {
+  local name="$1"
+  local source="$2"
+  local dest="$3"
+  local full_dest="$HOME/$dest"
+
+  step_green "Configuring $name"
+
+  if [ ! -e "$source" ]; then
+    fail "✘ couldn't find file $source"
+    return
+  fi
+
+  if [ -L "$full_dest" ] && [ "$full_dest" -ef "$source" ]; then
+    success "✔ $dest is already linked"
+    return
+  fi
+
+  if [ -e "$full_dest" ]; then
+    user "ℹ $dest already exists, moving to backup directory"
+    if ! move_to_backup_dir "$dest"; then
+      fail "✘ couldn't create backup for $dest"
+      return
+    fi
+  fi
+
+  local link_dir="$(dirname "$full_dest")"
+  if [ ! -d "$link_dir" ]; then
+    if ! mkdir -p "$link_dir"; then
+      fail "✘ couldn't create directory $link_dir"
+      return
+    fi
+  fi
+
+  if ln -s "$DOTFILES_ROOT/$source" "$full_dest"; then
+    success "✔ $dest has been linked"
+  else
+    fail "✘ $dest link couldn't be created"
+  fi
+}

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Setup Git
+#
+# Exits the script immediately if a command exits with a non-zero status (indicating an error).
+set -e
+
+info "============================================="
+info "                Setup Git"
+info "============================================="
+
+# link_dotfile name source dest
+
+# Link gitconfig
+link_dotfile "Git" "config/git/gitconfig" ".gitconfig"
+
+# Link gitigornore global
+link_dotfile "Git Ignore Global" "config/git/gitignore_global" ".gitignore_global"
+
+set_gitconfig_local() {
+  user ' - What is your github author name?'
+  read -e git_authorname
+  user ' - What is your github author email?'
+  read -e git_authoremail
+
+  sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" $CONFIG_PATH/git/gitconfig_local > $HOME/.gitconfig.local
+}
+
+# Replace gitcofig local info
+if [ -e "$HOME/.gitconfig.local" ]; then
+  user "$HOME/.gitconfig.local already exists"
+
+  cat "$HOME/.gitconfig.local"
+
+  user "Do you want to replace it? [y]es or [N]o (default)"
+  read -n 1 -e action
+  case "$action" in
+    y )
+      set_gitconfig_local;;
+    * )
+      ;;
+  esac
+else
+  set_gitconfig_local
+fi

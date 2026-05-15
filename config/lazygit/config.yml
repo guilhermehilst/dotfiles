@@ -1,0 +1,11 @@
+customCommands:
+  - key: "f"
+    command: "git fetch --prune"
+    context: "localBranches"
+    loadingText: "Fetching branches..."
+    description: "Fetch Branches with prune"
+  - key: "l"
+    command: "git fetch --prune && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D"
+    context: "localBranches"
+    loadingText: "Removing branches..."
+    description: "Remove all local branches whose corresponding upstream branch has been deleted"

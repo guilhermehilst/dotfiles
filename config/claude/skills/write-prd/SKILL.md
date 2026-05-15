@@ -8,10 +8,13 @@ allowed-tools:
   - Grep
   - Glob
   - Bash(git:*)
+  - Bash(gh:*)
   - Bash(rg:*)
   - Bash(ls:*)
   - Bash(find:*)
   - Bash(mkdir:*)
+  - Bash(mktemp:*)
+  - Bash(rm:*)
   - Bash(date:*)
   - Agent
   - AskUserQuestion
@@ -130,15 +133,51 @@ Se em dúvida entre incluir ou não uma história, **inclua** — esta seção d
 
 **Notas Adicionais** — qualquer contexto extra: dúvidas em aberto, links para outras discussões, riscos identificados, dependências externas, observações que não couberam acima.
 
-## Passo 5: Decidir onde salvar
+## Passo 5: Decidir o destino
 
-Depois que o PRD está pronto, use `AskUserQuestion` com **3 opções**:
+Depois que o PRD está pronto, use `AskUserQuestion` com **4 opções**:
 
 1. **Salvar em `tmp/prd-<slug>.md`** (recomendado) — o slug é um kebab-case curto derivado do título da feature (ex: `tmp/prd-autenticacao-sso.md`). Marque esta opção como "(Recomendado)".
 2. **Salvar em caminho customizado** — se escolhida, faça uma segunda pergunta (texto livre via "Other") perguntando o caminho exato.
 3. **Apenas exibir na conversa** — não cria arquivo. Imprima o PRD inteiro como markdown na resposta final, o usuário copia se quiser.
+4. **Criar issue no GitHub** — abre uma issue no repo atual com o PRD inteiro como corpo. Não salva arquivo local.
 
-Ao salvar como arquivo, garanta que o diretório pai existe (`mkdir -p` quando necessário) antes do `Write`.
+Ao salvar como arquivo (opções 1 e 2), garanta que o diretório pai existe (`mkdir -p` quando necessário) antes do `Write`.
+
+### Sub-fluxo da opção 4 (criar issue no GitHub)
+
+Se o usuário escolheu criar issue, siga este fluxo:
+
+**a) Verificar pré-requisitos.** Rode:
+
+- `gh auth status` — confirma autenticação
+- `gh repo view --json nameWithOwner -q .nameWithOwner` — confirma que o diretório é repo GitHub e captura o `owner/repo` de destino
+
+Se qualquer um falhar, mostre uma mensagem clara explicando o que falta (`gh` não instalado / `gh auth login` necessário / diretório não é repo GitHub) e **ofereça fallback**: pergunte se quer salvar em `tmp/prd-<slug>.md` (opção 1) para não perder o PRD. Nunca aborte sem oferecer o fallback.
+
+**b) Montar e exibir preview.** Imprima ao usuário:
+
+- Título proposto: `PRD: <título da feature>`
+- Repo destino: `<owner/repo>` do passo anterior
+- Primeiras ~20 linhas do body (o markdown do PRD)
+
+**c) Pedir confirmação.** Use `AskUserQuestion` com 2 opções: "Criar agora" e "Cancelar".
+
+- Se **Cancelar**: volte ao menu de 4 opções do Passo 5. Nenhuma issue é criada.
+- Se **Criar agora**: prossiga.
+
+**d) Criar a issue.** Escreva o markdown do PRD em arquivo temporário e use `--body-file` para evitar problemas de escape:
+
+```
+TMP=$(mktemp -t prd-issue.XXXXXX.md)
+# escreve o PRD em $TMP via Write tool
+gh issue create --title "PRD: <título>" --body-file "$TMP"
+rm -f "$TMP"
+```
+
+Capture a URL retornada pelo `gh issue create` e imprima ao usuário para ele clicar.
+
+**e) Não salve cópia local nesta opção.** O conteúdo vive só na issue.
 
 ## Regras de estilo
 
@@ -148,3 +187,4 @@ Ao salvar como arquivo, garanta que o diretório pai existe (`mkdir -p` quando n
 - **Não invente detalhes técnicos** que não aparecem na conversa nem no codebase. Se uma seção ficou sem evidência suficiente, escreva "A definir" e indique brevemente o que está faltando — não preencha com suposições.
 - **O PRD descreve intenção, não implementação detalhada**. Caminhos de arquivo, números de linha e snippets de código não entram (exceto a exceção do protótipo na seção de Decisões de Implementação).
 - **Resista à tentação de expandir o escopo**. Se algo apareceu na conversa mas foi descartado, ele vai para "Fora de Escopo", não some.
+- **Nunca execute `gh issue create` sem preview e confirmação explícita do usuário**. Criar issue é ação remota visível para o time — merece o passo extra. Se um pré-requisito falhar (`gh` ausente, sem auth, sem remote GitHub), não destrua o PRD gerado: ofereça fallback de salvar em `tmp/`.

@@ -24,6 +24,8 @@ allowed-tools:
 
 Transforma a conversa atual em um Product Requirements Document estruturado, usando o codebase como evidência para informar as seções técnicas. O PRD é descritivo de **intenção** — não substitui o código, mas define o contrato do que será construído.
 
+**A skill não entrevista o usuário sobre o conteúdo do PRD.** Trabalha estritamente com o que já está na conversa e no codebase. Se uma seção do template não tem suporte suficiente, ela é marcada como "A definir" no PRD — nunca perguntada de volta. As únicas interações com o usuário são operacionais (escolher destino do arquivo e confirmar criação de issue no GitHub).
+
 ## Entrada
 
 - **Fonte primária**: toda a conversa atual com o usuário, do início até o turno em que a skill foi invocada.
@@ -32,7 +34,7 @@ Transforma a conversa atual em um Product Requirements Document estruturado, usa
 
 ## Passo 1: Mapear o que já está na conversa
 
-Antes de buscar qualquer coisa ou perguntar qualquer coisa, faça um inventário mental do que a conversa já forneceu:
+Antes de explorar o codebase, faça um inventário do que a conversa já forneceu:
 
 - Qual é o problema? Quem sofre com ele?
 - Qual é a solução proposta? Está clara ou ainda está em formação?
@@ -41,7 +43,7 @@ Antes de buscar qualquer coisa ou perguntar qualquer coisa, faça um inventário
 - Que restrições apareceram (performance, segurança, prazos, dependências)?
 - Houve protótipos ou snippets que codificam decisões com precisão (state machine, schema, tipo)?
 
-Esse inventário é o seu ponto de partida. Tudo que vier a seguir (exploração e perguntas) serve para **complementar** o que falta, não para refazer o que já existe.
+Esse inventário é o seu ponto de partida. A exploração do codebase (Passo 2) serve para **complementar** com evidência técnica, não para refazer o que a conversa já cobriu. Seções do template sem suporte suficiente serão marcadas como "A definir" no PRD final — você não pergunta ao usuário.
 
 ## Passo 2: Explorar o codebase
 
@@ -56,44 +58,29 @@ Lance um `Agent` (ou até dois em paralelo) com `subagent_type=Explore` para:
 
 **Importante**: instrua o subagent explicitamente a **não retornar caminhos de arquivo** para inclusão direta no PRD — o template proíbe. O subagent deve relatar a evidência em prosa ("o módulo de autenticação usa middleware X com padrão Y") para você usar como insumo, não como conteúdo literal.
 
-## Passo 3: Identificar lacunas e perguntar
-
-Depois do inventário (Passo 1) + exploração (Passo 2), você tem uma visão clara do que está bem definido e do que ainda é vago. Identifique as lacunas **mais bloqueantes** nas 7 seções do template e faça **uma única rodada curta** de perguntas via `AskUserQuestion` (máximo 4 perguntas).
-
-Lacunas típicas que merecem virar pergunta:
-
-- Critérios de aceitação ou métricas de sucesso
-- Escopo de testes (unit, integração, E2E, manual?)
-- Itens explicitamente fora de escopo
-- Restrições não discutidas (performance, segurança, compatibilidade, prazos)
-- Personas adicionais que afetam histórias de usuário
-- Dependências de outros times ou sistemas
-
-**Critério para perguntar**: só pergunte o que afeta materialmente o PRD. Se a conversa já cobriu uma área, não force pergunta lá. Se a conversa cobriu tudo, pule esta etapa.
-
-Não pergunte detalhes que você pode inferir do codebase. Não pergunte preferências de formatação. Não pergunte "posso prosseguir?".
-
-## Passo 4: Gerar o PRD
+## Passo 3: Gerar o PRD
 
 Monte o PRD em memória (ainda não persista) seguindo **exatamente** este template em PT-BR:
 
 ```
 # PRD: <título curto da feature>
 
-## Declaração do Problema
+## 📋 Declaração do Problema
 
-## Solução
+## 💡 Solução
 
-## Histórias de Usuário
+## 👥 Histórias de Usuário
 
-## Decisões de Implementação
+## 🔨 Decisões de Implementação
 
-## Decisões de Testes
+## 🧪 Decisões de Testes
 
-## Fora de Escopo
+## 🚫 Fora de Escopo
 
-## Notas Adicionais
+## 📝 Notas Adicionais
 ```
+
+Os emojis nos headers são **fixos por seção** — use exatamente os do template acima, na mesma ordem, sem variações. Isso garante consistência entre PRDs gerados em momentos diferentes e facilita navegar múltiplos documentos.
 
 ### Regras de conteúdo por seção
 
@@ -129,11 +116,11 @@ Se em dúvida entre incluir ou não uma história, **inclua** — esta seção d
 - Prior art encontrada no codebase (em prosa: "seguimos o padrão usado em testes de X", sem citar caminhos)
 - Tipos de teste planejados e por quê
 
-**Fora de Escopo** — lista explícita do que **não** está incluso neste PRD. Itens que apareceram na conversa mas foram adiados, sub-features deliberadamente cortadas, integrações futuras. Esta seção evita ambiguidade depois.
+**Fora de Escopo** — lista explícita do que **não** está incluso neste PRD. Itens que apareceram na conversa mas foram adiados, sub-features deliberadamente cortadas, integrações futuras. Esta seção evita ambiguidade depois. Use `❌` no início de cada item para reforçar visualmente que é exclusão.
 
-**Notas Adicionais** — qualquer contexto extra: dúvidas em aberto, links para outras discussões, riscos identificados, dependências externas, observações que não couberam acima.
+**Notas Adicionais** — qualquer contexto extra: dúvidas em aberto, links para outras discussões, riscos identificados, dependências externas, observações que não couberam acima. Use `⚠️` para itens de risco ou dependência crítica quando agregar clareza.
 
-## Passo 5: Decidir o destino
+## Passo 4: Decidir o destino
 
 Depois que o PRD está pronto, use `AskUserQuestion` com **4 opções**:
 
@@ -163,7 +150,7 @@ Se qualquer um falhar, mostre uma mensagem clara explicando o que falta (`gh` n�
 
 **c) Pedir confirmação.** Use `AskUserQuestion` com 2 opções: "Criar agora" e "Cancelar".
 
-- Se **Cancelar**: volte ao menu de 4 opções do Passo 5. Nenhuma issue é criada.
+- Se **Cancelar**: volte ao menu de 4 opções do Passo 4. Nenhuma issue é criada.
 - Se **Criar agora**: prossiga.
 
 **d) Criar a issue.** Escreva o markdown do PRD em arquivo temporário e use `--body-file` para evitar problemas de escape:
@@ -183,8 +170,9 @@ Capture a URL retornada pelo `gh issue create` e imprima ao usuário para ele cl
 
 - **PT-BR em todo o output** — tanto na sua comunicação com o usuário quanto no conteúdo do PRD.
 - **Tom direto, sem bajulação**. Nada de "ótima pergunta!", "excelente ideia!". Vá direto ao ponto.
-- **Sem emojis**, a menos que o usuário use primeiro.
+- **Emojis estratégicos OK** — use para servir escaneabilidade e marcação semântica, não para decoração. Lugares apropriados: (1) headers das 7 seções do template (um emoji por seção, fixo conforme o template — não inventar variações); (2) marcadores funcionais em listas (✅ feito/incluso, ❌ excluído, ⚠️ risco/dependência crítica). Não espalhe emojis no meio de prosa, não use múltiplos emojis seguidos, não use emojis aleatórios decorativos.
 - **Não invente detalhes técnicos** que não aparecem na conversa nem no codebase. Se uma seção ficou sem evidência suficiente, escreva "A definir" e indique brevemente o que está faltando — não preencha com suposições.
+- **Não entreviste o usuário sobre o conteúdo do PRD.** Nada de "qual o critério de aceitação?", "quais personas?", "qual o escopo de testes?". Se a conversa não cobriu, marque "A definir". As únicas perguntas permitidas são operacionais: destino do arquivo (Passo 4) e confirmação de criação de issue.
 - **O PRD descreve intenção, não implementação detalhada**. Caminhos de arquivo, números de linha e snippets de código não entram (exceto a exceção do protótipo na seção de Decisões de Implementação).
 - **Resista à tentação de expandir o escopo**. Se algo apareceu na conversa mas foi descartado, ele vai para "Fora de Escopo", não some.
 - **Nunca execute `gh issue create` sem preview e confirmação explícita do usuário**. Criar issue é ação remota visível para o time — merece o passo extra. Se um pré-requisito falhar (`gh` ausente, sem auth, sem remote GitHub), não destrua o PRD gerado: ofereça fallback de salvar em `tmp/`.

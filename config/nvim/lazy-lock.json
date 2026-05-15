@@ -10,7 +10,7 @@
   "mini.icons": { "branch": "main", "commit": "9c7b1b90b15bdd69c52f6e31889dbc9987c30ec4" },
   "mini.indentscope": { "branch": "main", "commit": "ace9b4e503cb095b9a3f6442c909d117c4aa8d0e" },
   "mini.pairs": { "branch": "main", "commit": "30cf2f01c4aaa2033db67376b9924fa2442c05d6" },
-  "neo-tree.nvim": { "branch": "main", "commit": "ff84e6e1608b24773f1b73cd4182e0bcf2b3d637" },
+  "neo-tree.nvim": { "branch": "main", "commit": "83e7a2982fd12b9c3d35bc39dd5877cd91a02a61" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
   "nvim-surround": { "branch": "main", "commit": "2e93e154de9ff326def6480a4358bfc149d5da2c" },
   "nvim-tabline": { "branch": "main", "commit": "287cd88157f98da76cb32ac7df7ec5c546414ec0" },
@@ -18,6 +18,6 @@
   "snacks.nvim": { "branch": "main", "commit": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "b25b749b9db64d375d782094e2b9dce53ad53a40" },
   "telescope-symbols.nvim": { "branch": "master", "commit": "a6d0127a53d39b9fc2af75bd169d288166118aec" },
-  "telescope.nvim": { "branch": "master", "commit": "aa4ad82068176e9610034eedcf945289e90e5b0a" },
+  "telescope.nvim": { "branch": "master", "commit": "7d324792b7943e4aa16ad007212e6acc6f9fe335" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }

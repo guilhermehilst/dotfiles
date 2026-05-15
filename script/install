@@ -12,6 +12,7 @@ set -e
 # Set env DOTFILES_ROOT to current dir
 export DOTFILES_ROOT=$(pwd -P)
 export SCRIPT_PATH="$DOTFILES_ROOT/script"
+export CONFIG_PATH="$DOTFILES_ROOT/config"
 
 source "$SCRIPT_PATH/helpers/utils"
 source "$SCRIPT_PATH/setup_git"

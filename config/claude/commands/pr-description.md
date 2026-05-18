@@ -31,6 +31,7 @@ description: Gerar arquivo .md com descrição de Pull Request em tmp/
 
 - Nome do arquivo: `tmp/pr-<nome-da-branch>.md` (use a branch atual capturada acima). Exemplo: `tmp/pr-feat-recurrency-bills.md`.
 - Não fazer limitação de tamanho de linha — não quebrar linhas para caber em uma largura específica.
-- Escrever em português brasileiro, seguindo o estilo dos PRs anteriores em `tmp/` quando existirem (seções típicas: Contexto, Mudanças, Como testar localmente, Notas para o reviewer).
+- Escrever em português brasileiro, seguindo o estilo dos PRs anteriores em `tmp/` quando existirem. Seções típicas com emojis fixos nos headers: `📋 Contexto`, `🔨 Mudanças`, `🧪 Como testar localmente`, `📝 Notas para o reviewer`. Use exatamente esses emojis quando a seção for usada — não inventar variações.
+- **Emojis estratégicos OK** — use para servir escaneabilidade e marcação semântica, não para decoração. Lugares apropriados: (1) headers das seções típicas (emojis fixos listados acima); (2) marcadores funcionais em listas (✅ feito/incluso, ❌ excluído, ⚠️ risco/dependência crítica). Não espalhe emojis no meio de prosa, não use múltiplos emojis seguidos, não use emojis aleatórios decorativos.
 - **NÃO** fazer commit. **NÃO** abrir PR. **NÃO** dar push. O usuário fará isso manualmente depois.
 - Se a pasta `tmp/` não existir, criar antes de escrever o arquivo.

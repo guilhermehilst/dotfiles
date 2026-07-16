@@ -13,9 +13,43 @@ return {
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files Telescope" },
       { "<C-p>", "<cmd>lua require('telescope.builtin').find_files()<CR>", desc = "Find Files Telescope" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep Files Telescope" },
+      -- Variantes que incluem também arquivos do .gitignore (mantendo .git de fora)
+      {
+        "<leader>fF",
+        function()
+          require("telescope.builtin").find_files({
+            find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*", "-L" },
+          })
+        end,
+        desc = "Find Files (inclui .gitignore) Telescope",
+      },
+      {
+        "<leader>fG",
+        function()
+          require("telescope.builtin").live_grep({
+            additional_args = function()
+              return { "--no-ignore" }
+            end,
+          })
+        end,
+        desc = "Live Grep (inclui .gitignore) Telescope",
+      },
     },
     opts = {
       defaults = {
+        -- Base do ripgrep para live_grep/grep_string: inclui dotfiles e exclui .git
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--hidden",
+          "--glob",
+          "!**/.git/*",
+        },
         mappings = {
           i = {
             ["<c-t>"] = "file_tab",
@@ -24,10 +58,8 @@ return {
       },
       pickers = {
         find_files = {
-          -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-          hidden = true,
-          -- find_command = { "rg", "--files", "--hidden", "--ignore-case", "--glob", "!**/.git/*", "-L" },
-          find_command = { "rg", "--files", "--hidden", "--ignore-case", "--glob", "!**/.git/*", "-L" },
+          -- Inclui dotfiles, exclui .git, respeita .gitignore, segue symlinks
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*", "-L" },
         },
       },
       extensions = {
@@ -50,18 +82,4 @@ return {
       { "<leader>fe", "<cmd>lua require('telescope.builtin').symbols{ sources = {'emoji', 'gitmoji'} }<CR>", desc = "Find Emojis Telescope" },
     }
   },
-
-  -- Custom ripgrep configuration:
-
-  -- I want to search in hidden/dot files.
-  -- "--hidden"
-  --
-  -- I don't want to search in the `.git` directory.
-  -- "--glob")
-  -- "!**/.git/*")
-  --
-  --  I want to follow symbolic links
-  -- "-L"
-  --
 }
-

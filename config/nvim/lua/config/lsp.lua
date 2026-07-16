@@ -1,5 +1,6 @@
 vim.lsp.enable({
-    "ruby-lsp"
+    "ruby-lsp",
+    "gopls"
 })
 
 vim.diagnostic.config({
@@ -24,6 +25,32 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.WARN] = "WarningMsg",
         },
     },
+})
+
+-- Go: organiza imports (auto-import) + formata ao salvar.
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.go",
+    callback = function(args)
+        local client = vim.lsp.get_clients({ bufnr = args.buf, name = "gopls" })[1]
+        if not client then
+            return
+        end
+
+        local enc = client.offset_encoding or "utf-16"
+        local params = vim.lsp.util.make_range_params(0, enc)
+        params.context = { only = { "source.organizeImports" } }
+
+        local results = vim.lsp.buf_request_sync(args.buf, "textDocument/codeAction", params, 1000)
+        for _, res in pairs(results or {}) do
+            for _, action in pairs(res.result or {}) do
+                if action.edit then
+                    vim.lsp.util.apply_workspace_edit(action.edit, enc)
+                end
+            end
+        end
+
+        vim.lsp.buf.format({ bufnr = args.buf, async = false })
+    end,
 })
 
 -- Extras

@@ -14,6 +14,15 @@ export DOTFILES_ROOT=$(pwd -P)
 export SCRIPT_PATH="$DOTFILES_ROOT/script"
 export CONFIG_PATH="$DOTFILES_ROOT/config"
 
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until this script has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 source "$SCRIPT_PATH/helpers/utils"
+source "$SCRIPT_PATH/xcode_select"
 source "$SCRIPT_PATH/setup_git"
+source "$SCRIPT_PATH/homebrew"
+source "$SCRIPT_PATH/set_macos_defaults"
 source "$SCRIPT_PATH/link_dotfiles"

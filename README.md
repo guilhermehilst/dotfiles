@@ -15,7 +15,7 @@ it to replace ( Ag - The Silver Searcher  )
 - Setup [Pure prompt](https://github.com/sindresorhus/pure)
 - Setup tmux
 - Setup karabiner elements
-- Setup github cli ( gh  )
+- Setup github cli ( gh )
 - Setup tig
 - Search about lazygit
 - Markdown
@@ -23,6 +23,11 @@ it to replace ( Ag - The Silver Searcher  )
 - Setup ftplugin
 - Screen saver: [Fliqlo](https://fliqlo.com/screensaver/)
 - speeding up OMZ - https://scottspence.com/posts/speeding-up-my-zsh-shell
+- Instalar e setup do RTK - https://github.com/rtk-ai/rtk
+
+- Config LSP Neovim - https://www.youtube.com/watch?v=oBiBEx7L000
+
+- Install gopls - brew install gopls
 
 ### Brew installs
 
@@ -50,6 +55,8 @@ https://github.com/amandeepmittal/dotfiles
 https://github.com/theherk/commons
 
 https://github.com/driesvints/dotfiles
+
+https://www.youtube.com/watch?v=1jE7rCvByHg # Setup ZSH sem oh-my-zsh
 
 ### Passos:
 - Instalar [homebrew](https://brew.sh/)

@@ -15,7 +15,7 @@ Personal macOS dotfiles, successor to the older [laptop](https://github.com/guil
 
 ## Architecture: what actually gets installed
 
-[script/install](script/install) is the entrypoint. It sources [script/helpers/utils](script/helpers/utils) (logging + `link_dotfile`/`move_to_backup_dir` helpers), then [script/setup_git](script/setup_git), then [script/link_dotfiles](script/link_dotfiles).
+[script/install](script/install) is the entrypoint. It sources, in order: [script/helpers/utils](script/helpers/utils) (logging + `link_dotfile`/`move_to_backup_dir` helpers), [script/xcode_select](script/xcode_select), [script/setup_git](script/setup_git), [script/homebrew](script/homebrew), [script/oh_my_zsh](script/oh_my_zsh), [script/set_macos_defaults](script/set_macos_defaults), then [script/link_dotfiles](script/link_dotfiles).
 
 `link_dotfile <name> <source> <dest>` symlinks `$DOTFILES_ROOT/<source>` → `$HOME/<dest>`. If the destination already exists and isn't already the correct symlink, it's moved to `~/.dotfiles-backup/<dest>` first.
 
@@ -27,8 +27,15 @@ Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfile
 - `config/claude` → `~/.claude`
 - `config/git/gitconfig` → `~/.gitconfig`
 - `config/git/gitignore_global` → `~/.gitignore_global`
+- `config/zsh/zshrc` → `~/.zshrc`
 
-Other `config/*` directories (`alacritty`, `zsh`, `tmux`, `vim`, `gh`, `tig`, `karabiner`) are scaffolded but **not** wired into the installer. Adding a new config means adding the files AND a corresponding `link_dotfile` call.
+Other `config/*` directories (`alacritty`, `tmux`, `vim`, `gh`, `tig`, `karabiner`) are scaffolded but **not** wired into the installer. Adding a new config means adding the files AND a corresponding `link_dotfile` call.
+
+## Shell / zsh setup
+
+[script/oh_my_zsh](script/oh_my_zsh) installs oh-my-zsh non-destructively (`KEEP_ZSHRC=yes RUNZSH=no CHSH=no`, so it never touches our `.zshrc` or changes the default shell), then git-clones the `zsh-autosuggestions` and `zsh-syntax-highlighting` plugins into `$ZSH_CUSTOM/plugins`. Both steps are idempotent (guarded by directory checks).
+
+The committed `config/zsh/zshrc` is intentionally minimal (oh-my-zsh bootstrap + essential aliases). Machine- or tool-specific setup (pyenv, goenv, nvm, libpq, etc.) belongs in `~/.local.zsh`, which the committed `.zshrc` sources if present — the same local-override pattern as `~/.gitconfig.local`. Don't add machine-specific paths to the tracked `zshrc`.
 
 ## Git setup quirk
 

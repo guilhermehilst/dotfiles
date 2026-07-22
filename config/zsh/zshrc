@@ -1,0 +1,49 @@
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# -----------------------------------------------------
+# ZSH Config
+# -----------------------------------------------------
+
+DISABLE_AUTO_UPDATE="true"
+ZSH_THEME="robbyrussell"
+
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+source $ZSH/oh-my-zsh.sh
+
+export EDITOR='vim'
+export LC_ALL=en_US.UTF-8
+export LANG="$LC_ALL"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Configs específicas de máquina (não versionadas)
+[ -f ~/.local.zsh ] && source ~/.local.zsh
+
+# -----------------------------------------------------
+# Aliases
+# -----------------------------------------------------
+
+# File system (eza)
+if command -v eza &> /dev/null; then
+  alias ls='eza --group-directories-first --icons=always --color=always'
+  alias lsa='ls -lah'
+  alias lt='eza --tree --level=2 --long --icons --git'
+  alias lta='lt -a'
+fi
+
+alias cpwd='pwd | pbcopy'
+alias lvim='nvim '
+alias vim='nvim '
+alias gbr='git branch | grep -v "master" | grep -v "main" | xargs git branch -D'
+alias restart-logioptions="ps -e | grep 'logioptionsplus_agent --launchd' -m1 | awk '{print \$1}' | xargs kill -9"
+
+# -----------------------------------------------------
+# Paths
+# -----------------------------------------------------
+
+export PATH=/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:$PATH

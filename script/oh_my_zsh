@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# Install oh-my-zsh and plugins
+#
+# Exits the script immediately if a command exits with a non-zero status (indicating an error).
+set -e
+
+info "============================================="
+info "            Installing oh-my-zsh"
+info "                and plugins"
+info "============================================="
+
+# Install oh-my-zsh if not present.
+# KEEP_ZSHRC=yes → não sobrescreve nosso .zshrc (linkado depois em link_dotfiles)
+# RUNZSH=no      → não abre um novo shell ao final
+# CHSH=no        → não troca o shell padrão (zsh já é default no macOS moderno)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  step_green "oh-my-zsh não encontrado, instalando..."
+  RUNZSH=no KEEP_ZSHRC=yes CHSH=no \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  success "✔ oh-my-zsh instalado com sucesso"
+else
+  success "✔ oh-my-zsh já instalado"
+fi
+
+# Install external plugins into $ZSH_CUSTOM/plugins
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+install_zsh_plugin() {
+  local name="$1"
+  local repo="$2"
+  local dest="$ZSH_CUSTOM/plugins/$name"
+
+  step_green "Configuring $name"
+
+  if [ -d "$dest" ]; then
+    success "✔ $name já instalado"
+    return
+  fi
+
+  if git clone --depth=1 "$repo" "$dest"; then
+    success "✔ $name instalado com sucesso"
+  else
+    fail "✘ falha ao instalar $name"
+  fi
+}
+
+install_zsh_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions"
+install_zsh_plugin "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting"

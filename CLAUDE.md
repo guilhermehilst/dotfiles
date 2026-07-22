@@ -17,19 +17,30 @@ Personal macOS dotfiles, successor to the older [laptop](https://github.com/guil
 
 [script/install](script/install) is the entrypoint. It sources, in order: [script/helpers/utils](script/helpers/utils) (logging + `link_dotfile`/`move_to_backup_dir` helpers), [script/xcode_select](script/xcode_select), [script/setup_git](script/setup_git), [script/homebrew](script/homebrew), [script/oh_my_zsh](script/oh_my_zsh), [script/set_macos_defaults](script/set_macos_defaults), then [script/link_dotfiles](script/link_dotfiles).
 
+[script/homebrew](script/homebrew) installs Homebrew non-interactively if `brew` is missing, then runs `brew bundle` against [config/homebrew/Brewfile](config/homebrew/Brewfile). This is how the actual tooling (`mise`, neovim, rtk, eza, ripgrep, the terminal casks, etc.) lands on the machine — the Brewfile is *read* by `brew bundle`, never symlinked.
+
 `link_dotfile <name> <source> <dest>` symlinks `$DOTFILES_ROOT/<source>` → `$HOME/<dest>`. If the destination already exists and isn't already the correct symlink, it's moved to `~/.dotfiles-backup/<dest>` first.
 
-Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfiles) and [script/setup_git](script/setup_git)):
+Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfiles), except the two git ones which come from [script/setup_git](script/setup_git)):
 
 - `config/nvim` → `~/.config/nvim`
 - `config/ghostty/config` → `~/.config/ghostty/config`
 - `config/lazygit/config.yml` → `~/.config/lazygit/config.yml`
 - `config/claude` → `~/.claude`
-- `config/git/gitconfig` → `~/.gitconfig`
-- `config/git/gitignore_global` → `~/.gitignore_global`
 - `config/zsh/zshrc` → `~/.zshrc`
+- `config/zsh/zprofile` → `~/.zprofile`
+- `config/mise/config.toml` → `~/.config/mise/config.toml`
+- `config/tmux/tmux.conf` → `~/.tmux.conf`
+- `config/vim/vimrc` → `~/.vimrc`
+- `config/gh/config.yml` → `~/.config/gh/config.yml`
+- `config/tig/tigrc` → `~/.tigrc`
+- `config/karabiner/karabiner.json` → `~/.config/karabiner/karabiner.json`
+- `config/git/gitconfig` → `~/.gitconfig` (from `setup_git`)
+- `config/git/gitignore_global` → `~/.gitignore_global` (from `setup_git`)
 
-Other `config/*` directories (`alacritty`, `tmux`, `vim`, `gh`, `tig`, `karabiner`) are scaffolded but **not** wired into the installer. Adding a new config means adding the files AND a corresponding `link_dotfile` call.
+`mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go, both `latest`); the binary itself comes from the Brewfile.
+
+Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired into the installer (`config/homebrew` is consumed by `brew bundle`, not symlinked). Adding a new config means adding the files AND a corresponding `link_dotfile` call.
 
 ## Shell / zsh setup
 

@@ -2,61 +2,66 @@
 
 # Dotfiles
 
-## Objective
+Dotfiles pessoais de macOS
 
-This is my new dotfiles. It will replace my old repository [laptop](https://github.com/guilhermehilst/laptop)
-
-## NOTES
-
-- Setup Neovim ( lazyvim  )
-- Search about [ripgrep](https://github.com/BurntSushi/ripgrep) and how to use
-it to replace ( Ag - The Silver Searcher  )
-- Setup ZSH ( without oh-my-zsh  )
-- Setup [Pure prompt](https://github.com/sindresorhus/pure)
-- Setup tmux
-- Setup karabiner elements
-- Setup github cli ( gh )
-- Setup tig
-- Search about lazygit
-- Markdown
-  - brew install markdownlint-cli2
-- Setup ftplugin
-- Screen saver: [Fliqlo](https://fliqlo.com/screensaver/)
-- speeding up OMZ - https://scottspence.com/posts/speeding-up-my-zsh-shell
-- Instalar e setup do RTK - https://github.com/rtk-ai/rtk
-
-- Config LSP Neovim - https://www.youtube.com/watch?v=oBiBEx7L000
-
-- Install gopls - brew install gopls
-
-### Brew installs
-
-- Install nerd fonts
+## Instalação
 
 ```bash
-  # nerd fonts
-  brew install --cask font-ubuntu-mono-nerd-font
-  brew install --cask font-meslo-lg-nerd-font
-  # markdownlint 
-  brew install markdownlint-cli2
-  brew install pandoc
+git clone https://github.com/guilhermehilst/dotfiles.git
+cd dotfiles
+./script/install
 ```
 
+O `./script/install` precisa rodar a partir da raiz do repositório. Ele:
 
-### Dotfiles inspirations
-https://dotfiles.github.io/inspiration/
+1. Instala as Command Line Tools do Xcode (se faltarem).
+2. Pergunta interativamente nome e e-mail do git e gera o `~/.gitconfig.local`.
+3. Instala o Homebrew (se faltar) e roda `brew bundle` com o
+   [Brewfile](config/homebrew/Brewfile).
+4. Instala o oh-my-zsh e os plugins `zsh-autosuggestions` e
+   `zsh-syntax-highlighting`.
+5. Aplica os `defaults` do macOS (Finder, Dock, screenshots, teclado, etc.).
+6. Cria os symlinks das configs para o `$HOME`.
 
-https://github.com/mathiasbynens/dotfiles
-https://github.com/holman/dotfiles
+Arquivos pré-existentes no destino são movidos para `~/.dotfiles-backup/` antes de
+qualquer symlink ser criado. O install é idempotente — rodar de novo não quebra nada.
 
-https://github.com/hmarr/dotfiles
-https://github.com/amandeepmittal/dotfiles
+## O que está incluído
 
-https://github.com/theherk/commons
+| Ferramenta | Config | Observações |
+| --- | --- | --- |
+| **Neovim** | `config/nvim` → `~/.config/nvim` | Setup em Lua baseado em lazy.nvim |
+| **Ghostty** | `config/ghostty/config` | Terminal principal, tema Gruvbox Material |
+| **Alacritty** | `config/alacritty/alacritty.toml` | Config presente, **ainda não fiada** no installer |
+| **tmux** | `config/tmux/tmux.conf` → `~/.tmux.conf` | Prefixo `C-a`, copy-mode vi |
+| **Vim** | `config/vim/vimrc` → `~/.vimrc` | Config base com vim-plug |
+| **zsh** | `config/zsh/zshrc` → `~/.zshrc` | oh-my-zsh, tema `robbyrussell`, aliases com eza |
+| **git** | `config/git/gitconfig` → `~/.gitconfig` | Config global + `gitignore_global` |
+| **lazygit** | `config/lazygit/config.yml` | Comandos custom de fetch/prune |
+| **GitHub CLI** | `config/gh/config.yml` | `gh` via HTTPS, alias `co` |
+| **tig** | `config/tig/tigrc` → `~/.tigrc` | Cores e tema |
+| **Karabiner** | `config/karabiner/karabiner.json` | Vi mode com `opt + jk` |
+| **mise** | `config/mise/config.toml` → `~/.config/mise/` | Gerencia versões de ruby e go |
+| **Claude Code** | `config/claude` → `~/.claude` | Commands e skills versionados |
+| **Homebrew** | `config/homebrew/Brewfile` | Instalado via `brew bundle` (não é symlink) |
 
-https://github.com/driesvints/dotfiles
+Todo o ferramental (neovim, ripgrep, eza, fzf, mise, RTK, nerd fonts, casks, etc.)
+vem do [Brewfile](config/homebrew/Brewfile) via `brew bundle`.
 
-https://www.youtube.com/watch?v=1jE7rCvByHg # Setup ZSH sem oh-my-zsh
+## Overrides locais
 
-### Passos:
-- Instalar [homebrew](https://brew.sh/)
+Configuração específica de máquina (não versionada) fica em arquivos `*.local`, que
+as configs versionadas carregam se existirem:
+
+- `~/.local.zsh` — PATHs, `pyenv`/`goenv`/`nvm`, `libpq`, etc.
+- `~/.gitconfig.local` — nome/e-mail do git (gerado pelo installer).
+
+## Inspirações
+
+- <https://dotfiles.github.io/inspiration/>
+- <https://github.com/mathiasbynens/dotfiles>
+- <https://github.com/holman/dotfiles>
+- <https://github.com/hmarr/dotfiles>
+- <https://github.com/amandeepmittal/dotfiles>
+- <https://github.com/theherk/commons>
+- <https://github.com/driesvints/dotfiles>

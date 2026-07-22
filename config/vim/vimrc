@@ -1,0 +1,219 @@
+set t_u7=
+set enc=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf8,prc
+
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-endwise'
+Plug 'rking/ag.vim'
+"Plug 'flazz/vim-colorschemes'
+Plug 'sainnhe/gruvbox-material'
+Plug 'itchyny/lightline.vim' " pretty status bar
+Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-obsession'
+"Plug 'fatih/vim-go'
+Plug 'majutsushi/tagbar'
+Plug 'ervandew/supertab'
+
+" Initialize plugin system
+call plug#end()
+
+
+" Replace filename component of Lightline statusline
+let g:lightline = {
+  \ 'component_function': {
+  \   'filename': 'FilenameForLightline'
+  \ }
+\ }
+
+" Show full path of filename
+function! FilenameForLightline()
+  return expand('%')
+endfunction
+
+" Leader
+let mapleader = " "
+syntax on
+
+" Numbers
+"set number relativenumber
+set number
+set numberwidth=5
+
+" setting to not cretar .swp vim files
+set nobackup
+set nowritebackup
+set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set history=1000  " a lot of history
+set ruler         " show the cursor position all the time
+set hlsearch
+set showcmd       " display incomplete commands
+set incsearch     " do incremental searching
+set laststatus=2  " Always display the status line
+set autowrite     " Automatically :write before running commands
+set ignorecase    " Ignore case when searching...
+set smartcase     " ...unless we type a capital
+set showmode      "Show current mode down the bottom
+set visualbell    " No noise
+set nowrap        "Don't wrap lines
+
+set formatoptions-=t " do not automatically wrap text when typing"
+set backspace=indent,eol,start
+
+" setting Shift+y to copy to clipboard
+:vmap <S-y> "*y
+
+" setting Ctrl+p to search with fuzzy finder
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -U -l -g ""'
+let $FZF_DEFAULT_OPTS="-i"
+
+nmap <C-P> :FZF<CR>
+
+" setting F8 to open tagbar
+nmap <F8> :TagbarToggle<CR>
+
+" setting Ctrl+w + b to git-blame
+nnoremap <C-W>b :<C-u>call gitblame#echo()<CR>
+
+" set comment default align to start of line, possible: 'none', 'left', 'start', 'both'
+let g:NERDDefaultAlign = 'left'
+
+" Ruby's tagbar
+let g:tagbar_type_ruby = {
+  \ 'kinds' : [
+  \ 'm:modules',
+  \ 'c:classes',
+  \ 'd:describes',
+  \ 'C:contexts',
+  \ 'f:methods',
+  \ 'F:singleton methods'
+  \ ]
+\ }
+
+let g:tagbar_type_markdown = {
+  \ 'ctagstype' : 'markdown',
+  \ 'kinds' : [
+    \ 'h:Heading_L1',
+    \ 'i:Heading_L2',
+    \ 'k:Heading_L3'
+  \ ]
+\ }
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+" highlight ColorColumn ctermfg=gray
+
+" Softtabs, 2 spaces
+set softtabstop=2 
+set smarttab
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Open new split panes to right and bottom, which feels more natural
+set splitright
+set splitbelow
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·,nbsp:·
+
+
+" Disable automatic comment insertion
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Tab navigation like Firefox.
+" nnoremap <C-S-TAB> :tabprevious<CR>
+" nnoremap <C-TAB>   :tabnext<CR>
+nnoremap <C-t> :tabnew<CR>
+" inoremap <C-S-TAB> <Esc>:tabprevious<CR>i
+" inoremap <C-TAB>   <Esc>:tabnext<CR>i
+inoremap <C-t> <Esc>:tabnew<CR>
+
+"colorscheme wombat256
+
+" Important!!
+if has('termguicolors')
+  set termguicolors
+endif
+
+" For dark version.
+set background=dark
+
+" Set contrast.
+" This configuration option should be placed before `colorscheme gruvbox-material`.
+" Available values: 'hard', 'medium'(default), 'soft'
+"let g:gruvbox_material_background = 'hard'
+
+" For better performance
+let g:gruvbox_material_better_performance = 1
+
+colorscheme gruvbox-material
+
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+"highlight SignColumn ctermbg=235 guibg=#2c2d27
+
+let g:gitgutter_terminal_reports_focus=0
+let g:gitgutter_override_sign_column_highlight = 0
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=2
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+highlight GitGutterChangeDelete ctermfg=4
+
+"set guifont=Hack\ Nerd\ Font:h14
+"let g:webdevicons_enable_nerdtree = 1
+"let g:webdevicons_conceal_nerdtree_brackets = 1
+"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+"if exists("g:loaded_webdevicons")
+  "call webdevicons#refresh()
+"endif
+
+function! CloseNerdTree()
+  if g:NERDTree.IsOpen()
+    NERDTreeToggle
+    "NERDTreeFind
+    "q
+  else
+    if (expand("%:t") != '')
+      NERDTreeFind
+    else
+      NERDTreeToggle
+    endif
+  endif
+endfunction
+" ==== NERD tree
+" Open the project tree and expose current file in the nerdtree with Ctrl-\
+command! LocalCloseNerdTree call CloseNerdTree()
+nnoremap <silent> <C-\> :LocalCloseNerdTree<cr>
+
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+let g:tldr_directory_path = '~/.cache/tldr'
+
+" This gets the current directory name, not the fullpath, needed to see if the
+" " ./script/<dirname> exists so it can be called when running specs
+let script_name = split(getcwd(), "/")[-1]
+
+" Set file type HTML to vue files
+autocmd BufNewFile,BufRead *.vue set syntax=html
+
+" alias tc para tabclose
+cnoreabbrev tc tabclose
+
+"copia relative path para o clipboard
+nmap ,cs :let @+=expand("%")<CR>
+"copia full path para o clipboard
+nmap ,cl :let @+=expand("%:p")<CR>

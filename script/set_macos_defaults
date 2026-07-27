@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Install Homebrew and Packages
+# Configuring MacOS defaults
 #
 # Exits the script immediately if a command exits with a non-zero status (indicating an error).
 set -e

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Post install info
+#
+# Exits the script immediately if a command exits with a non-zero status (indicating an error).
+set -e
+
+success "✔ Dotfiles installed successfully!"
+printf "\n"
+info "These are the next steps you need to do manually:"
+
+printf "\n"
+info "============================================="
+info "           Post Install Info "
+info "============================================="
+
+printf "\n"
+step_blue "Raycast"
+
+bold "1. Import the Raycast configuration"
+user "   • Double-click config/raycast/export.rayconfig (or open"
+user "     Raycast → Settings → Advanced → Import), then enter the"
+user "     export password when prompted."
+
+# Open the Keyboard settings pane automatically (best effort).
+open "x-apple.systempreferences:com.apple.Keyboard-Settings.extension" >/dev/null 2>&1 || true
+
+bold "2. Free up the ⌘ + Space shortcut (currently Spotlight)"
+user "   The Keyboard settings window just opened. If it didn't, follow"
+user "   the full path:"
+user "     • Open the Apple menu () → System Settings…"
+user "     • In the sidebar, click \"Keyboard\""
+user "     • Click the \"Keyboard Shortcuts…\" button"
+user "     • In the dialog's left list, select \"Spotlight\""
+user "     • Uncheck \"Show Spotlight search\" (⌘ Space)"
+user "     • Click \"Done\""
+
+bold "3. Set Raycast to launch on ⌘ + Space"
+user "   • Open Raycast → Settings → General → set the Raycast Hotkey"
+user "     to ⌘ Space."
+
+printf "\n"

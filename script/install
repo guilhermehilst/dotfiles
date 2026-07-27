@@ -27,3 +27,5 @@ source "$SCRIPT_PATH/homebrew"
 source "$SCRIPT_PATH/oh_my_zsh"
 source "$SCRIPT_PATH/set_macos_defaults"
 source "$SCRIPT_PATH/link_dotfiles"
+
+source "$SCRIPT_PATH/post_install_info"

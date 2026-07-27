@@ -40,3 +40,24 @@ user "   • Open Raycast → Settings → General → set the Raycast Hotkey"
 user "     to ⌘ Space."
 
 printf "\n"
+step_blue "1Password SSH Agent"
+
+bold "1. Sign in to the 1Password app"
+user "   • Open 1Password and unlock it with your account."
+
+bold "2. Enable the SSH agent"
+user "   • Open 1Password → Settings → Developer"
+user "   • Turn on \"Use the SSH agent\""
+user "   • Turn on \"Integrate with 1Password CLI\" (optional, for op)"
+
+bold "3. Point SSH at the 1Password agent socket"
+user "   Add the following to ~/.ssh/config (create it if needed):"
+user "     Host *"
+user "       IdentityAgent \"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\""
+
+bold "4. Add your SSH key to 1Password"
+user "   • In 1Password, create/import an SSH Key item, then copy its"
+user "     public key from the item to GitHub/GitLab/servers as needed."
+user "   • Verify with: ssh-add -l  (should list the 1Password key)"
+
+printf "\n"

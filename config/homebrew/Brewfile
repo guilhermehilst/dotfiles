@@ -33,6 +33,8 @@ brew "vim"
 brew "watch"
 brew "wget"
 
+cask "1password"
+cask "1password-cli"
 cask "claude"
 cask "claude-code"
 cask "font-iosevka-nerd-font"

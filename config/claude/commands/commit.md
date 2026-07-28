@@ -1,6 +1,6 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
-description: Criar um commit git seguindo Conventional Commits
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*), Bash(git reset:*), Bash(git apply:*), Bash(git branch:*), Bash(git log:*)
+description: Criar um ou mais commits git seguindo Conventional Commits
 ---
 
 ## Contexto
@@ -12,8 +12,39 @@ description: Criar um commit git seguindo Conventional Commits
 
 ## Sua tarefa
 
-Com base nas alterações acima, crie um único commit git seguindo a especificação
-**Conventional Commits 1.0.0** (https://www.conventionalcommits.org/pt-br/v1.0.0/).
+Analise as alterações acima e decida se elas representam **uma ou várias**
+unidades lógicas de mudança. Em seguida crie **um ou mais** commits git seguindo
+a especificação **Conventional Commits 1.0.0**
+(https://www.conventionalcommits.org/pt-br/v1.0.0/).
+
+## Divisão em commits
+
+- Agrupe o diff por **unidade lógica coesa** (mesmo concern/escopo).
+- Se tudo pertencer à mesma unidade → crie **um único commit**.
+- Se houver concerns distintos (ex: uma feature + um ajuste de docs não
+  relacionado) → **proponha múltiplos commits**, um por unidade lógica.
+- **Sempre proponha o plano antes de executar**: para cada commit, liste os
+  arquivos/hunks incluídos e a mensagem proposta, e **peça confirmação** ao
+  usuário. Só crie os commits, na ordem proposta, após o "ok".
+
+## Staging por hunk
+
+- Quando um arquivo pertence inteiro a um único commit → `git add <arquivo>`
+  (caminho preferido).
+- Quando um mesmo arquivo tem mudanças de commits diferentes → separe por hunk:
+  - Parta de tudo unstaged (`git reset` se algo já estiver staged).
+  - Para cada grupo, monte um patch só com os hunks desejados (grave o `.patch`
+    em `tmp/` com o Write tool) e aplique com `git apply --cached <patch>` —
+    equivalente não-interativo ao `git add -p`.
+  - Faça `git commit` do grupo e repita para o próximo.
+- Só recorra ao patch por hunk quando houver mistura real de concerns no mesmo
+  arquivo; caso contrário, prefira staging por arquivo.
+
+## Branch
+
+- **Sempre faça os commits na branch atual** (a exibida em "Branch atual").
+- **Nunca crie, troque ou renomeie branches** — proibido `git checkout -b`,
+  `git switch -c`, `git switch <outra>`, `git branch <nova>`.
 
 ## Formato da mensagem
 
@@ -41,6 +72,8 @@ Com base nas alterações acima, crie um único commit git seguindo a especifica
 - **revert**: reverte um commit anterior
 
 ## Diretrizes
+
+Aplicam-se a **cada** commit criado:
 
 - Escreva em **Português Brasileiro** (a menos que seja explicitamente solicitado outro idioma)
 - A **descrição** (primeira linha) deve:

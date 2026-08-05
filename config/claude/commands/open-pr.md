@@ -129,9 +129,11 @@ Só após a confirmação, resolva o push: se não houver upstream, ou se `git l
 Escreva o corpo num arquivo temporário e use `--body-file`. Markdown com emoji e acento não sobrevive a escape de shell:
 
 ```
-TMP=$(mktemp -t open-pr.XXXXXX.md)
+TMP=$(mktemp -u -t open-pr)
 # escreve o corpo em $TMP com o Write tool
 ```
+
+O `-u` é obrigatório: sem ele o `mktemp` já cria o arquivo vazio, e o `Write` recusa sobrescrever arquivo que não foi lido antes — o command travaria aqui. Também não passe template com `XXXXXX`: no macOS o `-t` trata o argumento como **prefixo** e acrescenta o sufixo aleatório sozinho, então o `XXXXXX` sobraria literal no nome. A extensão do arquivo é irrelevante para o `gh`.
 
 **8a — criar** (caso normal):
 

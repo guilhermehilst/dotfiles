@@ -233,7 +233,7 @@ local function lsp_info()
     print("")
 
     -- Basic info
-    print("󰈙 Language client log: " .. vim.lsp.get_log_path())
+    print("󰈙 Language client log: " .. vim.lsp.log.get_filename())
     print("󰈔 Detected filetype: " .. vim.bo.filetype)
     print("󰈮 Buffer: " .. bufnr)
     print("󰈔 Root directory: " .. (vim.fn.getcwd() or "N/A"))
@@ -257,11 +257,14 @@ local function lsp_info()
         print(string.format("󰌘 Client %d: %s", i, client.name))
         print("  ID: " .. client.id)
         print("  Root dir: " .. (client.config.root_dir or "Not set"))
-        print("  Command: " .. table.concat(client.config.cmd or {}, " "))
+        -- cmd pode ser uma função em vez de tabela: jsonls e yamlls usam a forma
+        -- de função para preferir o binário local em node_modules/.bin.
+        local cmd = client.config.cmd
+        print("  Command: " .. (type(cmd) == "table" and table.concat(cmd, " ") or "<function>"))
         print("  Filetypes: " .. table.concat(client.config.filetypes or {}, ", "))
 
         -- Server status
-        if client.is_stopped() then
+        if client:is_stopped() then
             print("  Status: 󰅚 Stopped")
         else
             print("  Status: 󰄬 Running")

@@ -52,9 +52,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         -- Borda só aqui, em vez de opt.winborder global (ver config/options.lua),
         -- para não colocar borda nos floats de todos os plugins.
+        -- max_width também vira wrap_at (ver vim/lsp/util.lua): o texto quebra em
+        -- 80 em vez de esticar o float até a largura da janela. Em janela mais
+        -- estreita o Neovim encolhe sozinho, então 80 é teto e não largura fixa.
         if client:supports_method("textDocument/hover") then
             map("K", function()
-                vim.lsp.buf.hover({ border = "single" })
+                vim.lsp.buf.hover({
+                    border = "single",
+                    max_width = 80,
+                    max_height = 20,
+                })
             end, "Hover (LSP)")
 
             -- ESC fecha o hover, somando aos jeitos nativos (mover o cursor,

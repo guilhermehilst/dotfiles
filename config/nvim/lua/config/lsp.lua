@@ -1,6 +1,7 @@
 vim.lsp.enable({
     "ruby-lsp",
-    "gopls"
+    "gopls",
+    "lua_ls"
 })
 
 vim.diagnostic.config({

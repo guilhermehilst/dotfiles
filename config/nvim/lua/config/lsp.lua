@@ -88,6 +88,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
         local enc = client.offset_encoding or "utf-16"
         local params = vim.lsp.util.make_range_params(0, enc)
+        -- Params de codeAction carregam context, mas o tipo de retorno do
+        -- make_range_params não prevê campos extras.
+        ---@diagnostic disable-next-line: inject-field
         params.context = { only = { "source.organizeImports" } }
 
         local results = vim.lsp.buf_request_sync(args.buf, "textDocument/codeAction", params, 1000)
@@ -105,12 +108,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Extras
 
+--- Filetypes de um client. Vem do vim.lsp.Config (o config do vim.lsp.enable),
+--- não do ClientConfig, que não declara esse campo.
+--- @param client vim.lsp.Client
+--- @return string[]
+local function lsp_filetypes(client)
+    return (vim.lsp.config[client.name] or {}).filetypes or {}
+end
+
 local function restart_lsp(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
     for _, client in ipairs(clients) do
-        vim.lsp.stop_client(client.id)
+        client:stop()
     end
 
     vim.defer_fn(function()
@@ -137,10 +148,12 @@ local function lsp_status()
     for i, client in ipairs(clients) do
         print(string.format("󰌘 Client %d: %s (ID: %d)", i, client.name, client.id))
         print("  Root: " .. (client.config.root_dir or "N/A"))
-        print("  Filetypes: " .. table.concat(client.config.filetypes or {}, ", "))
+        -- filetypes pertence ao vim.lsp.Config (nível do vim.lsp.enable), não ao
+        -- ClientConfig; ler de vim.lsp.config é a fonte declarada.
+        print("  Filetypes: " .. table.concat(lsp_filetypes(client), ", "))
 
         -- Check capabilities
-        local caps = client.server_capabilities
+        local caps = client.server_capabilities or {}
         local features = {}
         if caps.completionProvider then table.insert(features, "completion") end
         if caps.hoverProvider then table.insert(features, "hover") end
@@ -168,7 +181,7 @@ local function check_lsp_capabilities()
 
     for _, client in ipairs(clients) do
         print("Capabilities for " .. client.name .. ":")
-        local caps = client.server_capabilities
+        local caps = client.server_capabilities or {}
 
         local capability_list = {
             { "Completion",                caps.completionProvider },
@@ -261,7 +274,7 @@ local function lsp_info()
         -- de função para preferir o binário local em node_modules/.bin.
         local cmd = client.config.cmd
         print("  Command: " .. (type(cmd) == "table" and table.concat(cmd, " ") or "<function>"))
-        print("  Filetypes: " .. table.concat(client.config.filetypes or {}, ", "))
+        print("  Filetypes: " .. table.concat(lsp_filetypes(client), ", "))
 
         -- Server status
         if client:is_stopped() then
@@ -286,7 +299,7 @@ local function lsp_info()
         print("  Attached buffers: " .. #attached_buffers)
 
         -- Key capabilities
-        local caps = client.server_capabilities
+        local caps = client.server_capabilities or {}
         local key_features = {}
         if caps.completionProvider then table.insert(key_features, "completion") end
         if caps.hoverProvider then table.insert(key_features, "hover") end

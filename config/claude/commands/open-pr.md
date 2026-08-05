@@ -76,16 +76,16 @@ Procure, nesta ordem, o template do projeto:
 ### Template próprio (fallback)
 
 ```
-📋 Contexto
+## 📋 Contexto
 
-🔨 Mudanças
+## 🔨 Mudanças
 
-🧪 Como testar localmente
+## 🧪 Como testar localmente
 
-📝 Notas para o reviewer
+## 📝 Notas para o reviewer
 ```
 
-Use exatamente esses emojis nos headers, nessa ordem — sem variações.
+Use exatamente esses emojis nos headers, nessa ordem e sempre com `##` — sem variações. A condicional `🚀 Impacto no deploy` (abaixo) entra no meio dessa ordem: depois de `🔨 Mudanças`, antes de `🧪 Como testar localmente`.
 
 **As seções são elásticas**: seção sem conteúdo real é **omitida**, nunca preenchida com "N/A" ou "—". Um commit de `chore` sai com Contexto e Mudanças e pronto. Isso vale só para o template próprio — no template do projeto, nada é removido.
 
@@ -101,6 +101,38 @@ Regras de conteúdo:
 Adições condicionais:
 
 - **⚠️ Breaking change** — se algum commit tem `!` no tipo ou rodapé `BREAKING CHANGE:`, o corpo **abre** com uma linha `⚠️` citando o que quebra, antes da primeira seção. É o que mais muda a decisão do reviewer; não pode ficar enterrado no fim. Se estiver usando template do projeto, coloque logo após o primeiro header, para não quebrar a estrutura esperada.
+- **🚀 Impacto no deploy** — se o diff prova impacto operacional, entre `🔨 Mudanças` e `🧪 Como testar localmente`. É o que decide se o PR pode subir a qualquer hora ou precisa de janela. **Só no template próprio**: nunca injete esta seção num template de projeto — o Passo 5 manda preservar a estrutura exata, e template que se importa com deploy já tem seção própria pra isso (a informação iria pra lá, não pra uma seção nova). Gatilhos:
+  - **Migração** — `db/migrate/`, `migrations/`, `db/schema.rb`/`structure.sql` alterados.
+  - **Config/ambiente** — `.env.example`/`.env.sample`, `ENV[...]` novo no diff, `config/credentials`.
+  - **Dependências** — entrada nova em `Gemfile`, `package.json`, `go.mod`, `Cargo.toml`, `requirements.txt`, `pyproject.toml`.
+  - **Infra/deploy** — `Dockerfile`, `docker-compose*`, `Procfile`, `*.tf`, `k8s/`, `helm/`, `fly.toml`, `render.yaml`, `config/deploy.yml` (Kamal), `.github/workflows/`.
+  - **Agendamento/background** — `sidekiq.yml`, `schedule.rb`, `config/recurring.yml`, cron.
+
+  Formato: bloco `**Impacto**` em bullets, depois `**Rollback**` numerado em ordem de execução.
+
+  ```
+  ## 🚀 Impacto no deploy
+
+  **Impacto**
+  - ⚠️ Migração `20260805_add_recurrence_to_invoices.rb`
+  - Nova ENV var `PIX_WEBHOOK_SECRET` (`.env.example` atualizado)
+
+  **Rollback**
+  1. Reverter o PR
+  2. Rodar `bin/rails db:rollback STEP=1`
+  3. Remover `PIX_WEBHOOK_SECRET` do ambiente
+  ```
+
+  **Nenhum gatilho disparou → a seção não existe.** Não escreva a seção só para dizer "reverter o PR basta": mudança de código puro não tem impacto de deploy a reportar. Omita também o bloco `**Rollback**` quando o único gatilho for dependência nova — o revert já restaura o lockfile.
+
+  Aqui vai só a **consequência operacional**, não o que mudou no código — isso é `🔨 Mudanças`. Quando o PR é só um bump de dependência, as duas seções tendem a dizer a mesma coisa: nesse caso mantenha `🔨 Mudanças` e omita esta.
+
+  O bloco `**Rollback**` é o ponto de maior risco de invenção deste command. Regras:
+  - **Comando só com a stack comprovada no repo** — mesmo critério do `🧪`: `Gemfile` com `gem 'rails'` ou `config/application.rb` (Rails), `package.json` (Node), `Makefile`, `Procfile`. Sem esse sinal, descreva o passo em prosa ("desfazer a migração pela ferramenta do projeto"); **nunca** chute `rails db:rollback` em repo que não é Rails. Use a forma de invocação que o repo comprova: `bin/rails` só quando o arquivo existe — Rails antigo sem `bin/` usa `bundle exec rails`.
+  - **Migração destrutiva** (`drop_table`, `remove_column`, `drop_column`) ou sem `down` reversível: marque `⚠️` dizendo que o revert **não restaura os dados** e que o passo depende do autor. Não invente script de restauração.
+  - **Infra** (`*.tf`, `k8s/`, `helm/`): aponte que exige apply/rollback próprio da ferramenta, sem escrever o comando.
+  - Máx. ~4 passos. Rollback mais longo que isso é sinal de que quem escreve é o autor, não você.
+  - **Não repita o `⚠️` de breaking change do topo**: aquele é quebra de contrato, este é operacional. Se os dois existem, cada um fala do seu lado.
 - **📸 Screenshots** — se o diff toca UI (`app/views`, `app/components`, `app/javascript`, `*.erb`, `*.slim`, `*.jsx`, `*.tsx`, `*.vue`, `*.css`, `*.scss`), adicione a seção com marcador explícito de pendência (`⚠️ A adicionar`) e, depois de criar o PR, avise no chat com a URL para você anexar a imagem.
 
 ### Idioma

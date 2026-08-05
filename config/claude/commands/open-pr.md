@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git branch:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git rev-parse:*), Bash(git push:*), Bash(gh auth:*), Bash(gh repo view:*), Bash(gh pr list:*), Bash(gh pr create:*), Bash(gh pr edit:*), Bash(mktemp:*), Bash(rm:*), Read, Write, Glob, AskUserQuestion
+allowed-tools: Bash(git branch:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git rev-parse:*), Bash(git push:*), Bash(gh auth:*), Bash(gh repo view:*), Bash(gh pr list:*), Bash(gh pr view:*), Bash(gh pr create:*), Bash(gh pr edit:*), Bash(mktemp:*), Bash(rm:*), Read, Write, Glob, AskUserQuestion
 argument-hint: "[branch-base] [-- notas extras]"
 description: Abrir Pull Request no GitHub com descrição gerada dos commits
 ---
@@ -27,7 +27,7 @@ Rode nesta ordem e **aborte seco** na primeira falha, com mensagem curta dizendo
 3. **Base**: use o argumento do Passo 1 se houver; senão `defaultBranchRef.name`.
 4. **Branch atual ≠ base** — se forem iguais, aborte: não há PR a abrir a partir da própria base.
 5. `git log <base>..HEAD --oneline` — se vier vazio, aborte: a branch não tem commits à frente da base.
-6. `gh pr list --head <branch-atual> --state open --json number,url,title` — se já existir PR aberto, mostre número, título e URL e use `AskUserQuestion` com **Atualizar descrição** e **Cancelar**. Em "Atualizar descrição", siga o fluxo normal e termine no Passo 8b; avise explicitamente que isso **sobrescreve** qualquer edição feita na web.
+6. `gh pr list --head <branch-atual> --state open --json number,url,title` — se já existir PR aberto, mostre número, título e URL e use `AskUserQuestion` com **Atualizar descrição** e **Cancelar**. Em "Atualizar descrição", siga o fluxo normal, faça o preview pelo Passo 7b e termine no Passo 8b; avise explicitamente que isso **sobrescreve** qualquer edição feita na web.
 
 ## Passo 3: Confirmar pendências da working tree
 
@@ -111,18 +111,32 @@ Se o Passo 1 capturou notas, trate como **direcionamento prioritário** e incorp
 
 ## Passo 7: Preview e confirmação
 
-Imprima no chat, antes de qualquer ação remota:
+Nos dois casos, imprima primeiro este cabeçalho, antes de qualquer ação remota:
 
 - Título proposto
 - `<base>` ← `<branch-atual>`
 - Repo destino (`nameWithOwner`). **Se `isFork` for true**, explicite o destino real: "vai abrir em `<parent>`, a partir de `<seu-fork>:<branch>`".
 - Qual template foi usado (caminho do template do projeto, ou "template próprio")
 - Pendências que ficaram de fora, se houve
-- O corpo **inteiro**
 
-Depois use `AskUserQuestion` com três opções: **Abrir PR**, **Abrir como draft**, **Cancelar**. Em "Cancelar", pare sem criar nada.
+### 7a — Criação (não havia PR aberto)
 
-Só após a confirmação, resolva o push: se não houver upstream, ou se `git log @{u}..HEAD` tiver commits, informe quantos commits faltam e use `AskUserQuestion` (**Fazer push** / **Cancelar**) antes de rodar `git push -u origin <branch-atual>`. Sem push não há PR — se cancelar aqui, aborte.
+Imprima o corpo **inteiro**: não existe versão anterior para comparar, e essa é a última chance de revisar antes de o texto ficar visível para o time.
+
+Depois use `AskUserQuestion` com **Abrir PR**, **Abrir como draft** e **Cancelar**. Em "Cancelar", pare sem criar nada.
+
+### 7b — Atualização (PR já existia, Passo 2.6)
+
+Busque a descrição atual com `gh pr view <número> --json body` e imprima **apenas os trechos que mudam**, dizendo em que seção cada um está. Repetir 50 linhas idênticas para revelar duas frases novas esconde a mudança em vez de mostrá-la.
+
+- Se nada mudar em relação ao corpo atual, diga isso e **não** chame o `gh pr edit` — edição sem conteúdo novo só gera ruído no histórico do PR.
+- Se a descrição atual contém texto que este command não escreveria (alguém editou na web), aponte o que será perdido **antes** de pedir a confirmação.
+
+Depois use `AskUserQuestion` com **Atualizar descrição** e **Manter como está**. Não ofereça draft aqui: o estado do PR não muda, só o corpo.
+
+### Push (nos dois casos)
+
+Só após a confirmação, resolva o push: se não houver upstream, ou se `git log @{u}..HEAD` tiver commits, informe quantos commits faltam e use `AskUserQuestion` (**Fazer push** / **Cancelar**) antes de rodar `git push -u origin <branch-atual>` — ou só `git push`, quando o upstream já existe. Sem push não há PR — se cancelar aqui, aborte.
 
 ## Passo 8: Criar ou atualizar
 

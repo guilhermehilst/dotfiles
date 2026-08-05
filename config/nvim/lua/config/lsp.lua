@@ -1,7 +1,11 @@
 vim.lsp.enable({
     "ruby-lsp",
     "gopls",
-    "lua_ls"
+    "lua_ls",
+    "bashls",
+    "jsonls",
+    "yamlls",
+    "marksman"
 })
 
 vim.diagnostic.config({

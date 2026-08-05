@@ -28,6 +28,51 @@ vim.diagnostic.config({
     },
 })
 
+-- O Neovim 0.11+ já mapeia grn/gra/grr/gri/grt/K por padrão, mas não gd — o gd
+-- nativo é uma busca textual de declaração local. Mapeia por buffer para não
+-- perder esse comportamento onde não há LSP.
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if not client then
+            return
+        end
+
+        local function map(lhs, rhs, desc)
+            vim.keymap.set("n", lhs, rhs, { buffer = args.buf, desc = desc })
+        end
+
+        if client:supports_method("textDocument/definition") then
+            map("gd", vim.lsp.buf.definition, "Go to definition (LSP)")
+        end
+
+        -- Borda só aqui, em vez de opt.winborder global (ver config/options.lua),
+        -- para não colocar borda nos floats de todos os plugins.
+        if client:supports_method("textDocument/hover") then
+            map("K", function()
+                vim.lsp.buf.hover({ border = "single" })
+            end, "Hover (LSP)")
+
+            -- ESC fecha o hover, somando aos jeitos nativos (mover o cursor,
+            -- entrar em insert, ou q com o float focado). O winid do float fica
+            -- em b:lsp_floating_preview; o Neovim limpa essa var sozinho.
+            map("<Esc>", function()
+                local win = vim.b[args.buf].lsp_floating_preview
+                if win and vim.api.nvim_win_is_valid(win) then
+                    -- Mesma teardown do close_preview_window() interno: sem
+                    -- remover o augroup sobra autocmd apontando pra janela morta.
+                    pcall(vim.api.nvim_del_augroup_by_name, "nvim.preview_window_" .. win)
+                    pcall(vim.api.nvim_win_close, win, true)
+                    return
+                end
+
+                -- Sem hover aberto, repassa o ESC nativo.
+                vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
+            end, "Close LSP hover")
+        end
+    end,
+})
+
 -- Go: organiza imports (auto-import) + formata ao salvar.
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*.go",

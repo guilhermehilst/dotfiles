@@ -61,6 +61,10 @@ opt.scrolloff = 4 -- Lines of context
 opt.sidescrolloff = 8 -- Columns of context
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.winbar = ''
+-- winborder é global: qualquer float que não passe border explícito herda dele
+-- (blink.cmp, which-key, neo-tree...). A borda do hover do LSP é aplicada
+-- pontualmente no mapeamento de K em lua/config/lsp.lua.
+-- opt.winborder = 'single'
 opt.mouse = "a" -- Enable mouse mode
 -- opt.breakindent = true
 opt.completeopt = "menu,menuone,noselect"

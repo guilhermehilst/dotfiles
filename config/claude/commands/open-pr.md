@@ -94,6 +94,8 @@ Regras de conteúdo:
 - **📋 Contexto** — por que a mudança existe, o problema que resolve. Se detectar referência de issue (número no nome da branch, tipo `feat/123-foo`, ou `#N` nas mensagens de commit), adicione `Relacionado a #N` aqui. **Nunca** use `Closes`, `Fixes` ou outra keyword de fechamento: aquele número pode ser um ticket de outro sistema, e fechar issue é decisão deliberada do autor.
 - **🔨 Mudanças** — o que mudou, agrupado por área/concern. Detalhe o código-fonte; gerados aparecem como menção única.
 - **🧪 Como testar localmente** — comandos **só** com evidência real no repo (scripts do `package.json`, `Makefile`, `bin/rails`, `Gemfile`, workflow de CI). Sem esse sinal, descreva o cenário funcional a verificar em prosa ("confirme que a listagem de contas mostra a recorrência") — **nunca** invente um comando que talvez não exista.
+  - **Primeira linha da seção é a cobertura de testes**, antes dos passos de reprodução: `✅ Cobertura: specs adicionados em spec/models/conta_spec.rb` ou `⚠️ Sem testes automatizados neste PR`. Só conta arquivo de teste presente no diff — não infira de "o código parece testável".
+  - Essa linha só existe se o repo **tiver** suíte (`spec/`, `test/`, `*_test.go`, `__tests__`, script `test` no `package.json`, job de teste no CI). Repo sem suíte: omita a linha, não cobre teste de quem não tem onde escrever.
 - **📝 Notas para o reviewer** — pontos de atenção, decisões discutíveis, dependências.
 
 Adições condicionais:

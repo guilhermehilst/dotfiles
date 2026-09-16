@@ -1,58 +1,58 @@
-brew "awscli"
-brew "bash-language-server"
-brew "bat"
-brew "btop"
-brew "eza"
-brew "fd"
-brew "fzf"
-brew "gh"
-brew "golang-migrate"
-brew "golangci-lint"
-brew "gopls"
-brew "gti"
-brew "htop"
-brew "imagemagick"
-brew "lazydocker"
-brew "lazygit"
-brew "libffi"
-brew "libpq"
-brew "lua-language-server"
-brew "luarocks"
-brew "markdownlint-cli2"
-brew "marksman"
-brew "mas"
-brew "mise"
-brew "neovim"
-brew "overmind"
-brew "reattach-to-user-namespace"
-brew "ripgrep"
-brew "rtk"
-brew "shellcheck"
-brew "shfmt"
-brew "the_silver_searcher"
-brew "tig"
-brew "tmux"
-brew "tree-sitter-cli"
-brew "vim"
-brew "vscode-langservers-extracted"
-brew "watch"
-brew "wget"
-brew "yaml-language-server"
+brew "awscli"                     # CLI oficial da AWS
+brew "bash-language-server"       # Language server de Bash (LSP)
+brew "bat"                        # cat com syntax highlighting e integração Git
+brew "btop"                       # Monitor de recursos e processos no terminal
+brew "eza"                        # Substituto moderno do ls
+brew "fd"                         # Alternativa rápida e amigável ao find
+brew "fzf"                        # Fuzzy finder para linha de comando
+brew "gh"                         # CLI oficial do GitHub
+brew "golang-migrate"             # CLI de migrations de banco de dados
+brew "golangci-lint"              # Runner de linters para Go
+brew "gopls"                      # Language server oficial de Go
+brew "gti"                        # Corretor de typos do git com animação ASCII
+brew "htop"                       # Visualizador interativo de processos (top melhorado)
+brew "imagemagick"                # Manipulação de imagens via linha de comando
+brew "lazydocker"                 # TUI para gerenciar Docker
+brew "lazygit"                    # TUI para comandos git
+brew "libffi"                     # Biblioteca de FFI (dependência de builds nativos)
+brew "libpq"                      # Biblioteca cliente C do Postgres (psql, gem pg)
+brew "lua-language-server"        # Language server de Lua (config do Neovim)
+brew "luarocks"                   # Gerenciador de pacotes de Lua
+brew "markdownlint-cli2"          # Linter de Markdown
+brew "marksman"                   # Language server de Markdown
+brew "mas"                        # CLI da Mac App Store
+brew "mise"                       # Gerenciador de versões de runtimes (ruby, go)
+brew "neovim"                     # Editor principal (fork extensível do Vim)
+brew "overmind"                   # Gerenciador de processos para Procfile (via tmux)
+brew "reattach-to-user-namespace" # Acesso ao clipboard do macOS dentro do tmux
+brew "ripgrep"                    # Busca em código (grep mais rápido)
+brew "rtk"                        # Proxy de CLI que reduz consumo de tokens de LLM
+brew "shellcheck"                 # Análise estática de scripts shell
+brew "shfmt"                      # Formatador de scripts shell
+brew "the_silver_searcher"        # Busca em código (ag, similar ao ack)
+brew "tig"                        # Interface de texto para repositórios Git
+brew "tmux"                       # Multiplexador de terminal
+brew "tree-sitter-cli"            # Gerador de parsers (highlight do Neovim)
+brew "vim"                        # Vim original (vimrc em config/vim)
+brew "vscode-langservers-extracted" # Language servers de HTML, CSS, JSON e ESLint
+brew "watch"                      # Executa um comando periodicamente em tela cheia
+brew "wget"                       # Download de arquivos via HTTP/FTP
+brew "yaml-language-server"       # Language server de YAML
 
-cask "1password"
-cask "1password-cli"
-cask "claude"
-cask "claude-code"
-cask "docker"
-cask "font-iosevka-nerd-font"
-cask "font-meslo-lg-nerd-font"
-cask "font-ubuntu-mono-nerd-font"
-cask "ghostty"
-cask "homebrew-app"
-cask "karabiner-elements"
-cask "obsidian"
-cask "raycast"
-cask "sublime-text"
-cask "tableplus"
-cask "transmission"
-cask "vlc"
+cask "1password"                  # Gerenciador de senhas
+cask "1password-cli"              # CLI do 1Password
+cask "claude"                     # App desktop do Claude
+cask "claude-code"                # Assistente de código no terminal
+cask "docker"                     # Docker Desktop (containers)
+cask "font-iosevka-nerd-font"     # Fonte Iosevka com ícones (Nerd Font)
+cask "font-meslo-lg-nerd-font"    # Fonte Meslo LG com ícones (Nerd Font)
+cask "font-ubuntu-mono-nerd-font" # Fonte Ubuntu Mono com ícones (Nerd Font)
+cask "ghostty"                    # Emulador de terminal com aceleração por GPU
+cask "homebrew-app"               # GUI oficial do Homebrew
+cask "karabiner-elements"         # Customização de teclado
+cask "obsidian"                   # Base de conhecimento em Markdown local
+cask "raycast"                    # Launcher e produtividade (substitui Spotlight)
+cask "sublime-text"               # Editor de texto e markup (GUI)
+cask "tableplus"                  # GUI para bancos de dados relacionais
+cask "transmission"               # Cliente BitTorrent
+cask "vlc"                        # Player de mídia

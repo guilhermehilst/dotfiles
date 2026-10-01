@@ -21,7 +21,7 @@ brew "luarocks"                   # Gerenciador de pacotes de Lua
 brew "markdownlint-cli2"          # Linter de Markdown
 brew "marksman"                   # Language server de Markdown
 brew "mas"                        # CLI da Mac App Store
-brew "mise"                       # Gerenciador de versões de runtimes (ruby, go)
+brew "mise"                       # Gerenciador de versões de runtimes (ruby, go, python)
 brew "neovim"                     # Editor principal (fork extensível do Vim)
 brew "overmind"                   # Gerenciador de processos para Procfile (via tmux)
 brew "reattach-to-user-namespace" # Acesso ao clipboard do macOS dentro do tmux

@@ -1,7 +1,8 @@
 [settings]
-idiomatic_version_file_enable_tools = ["ruby", "go"]
+idiomatic_version_file_enable_tools = ["ruby", "go", "python"]
 
 [tools]
 # Always resolves to the newest release available
 ruby = "latest"
 go = "latest"
+python = "latest"

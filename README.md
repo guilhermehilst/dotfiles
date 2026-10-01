@@ -41,7 +41,7 @@ qualquer symlink ser criado. O install é idempotente — rodar de novo não que
 | **GitHub CLI** | `config/gh/config.yml` | `gh` via HTTPS, alias `co` |
 | **tig** | `config/tig/tigrc` → `~/.tigrc` | Cores e tema |
 | **Karabiner** | `config/karabiner/karabiner.json` | Vi mode com `opt + jk` |
-| **mise** | `config/mise/config.toml` → `~/.config/mise/` | Gerencia versões de ruby e go |
+| **mise** | `config/mise/config.toml` → `~/.config/mise/` | Gerencia versões de ruby, go e python |
 | **Claude Code** | `config/claude` → `~/.claude` | Commands e skills versionados |
 | **Homebrew** | `config/homebrew/Brewfile` | Instalado via `brew bundle` (não é symlink) |
 
@@ -53,7 +53,7 @@ vem do [Brewfile](config/homebrew/Brewfile) via `brew bundle`.
 Configuração específica de máquina (não versionada) fica em arquivos `*.local`, que
 as configs versionadas carregam se existirem:
 
-- `~/.local.zsh` — PATHs, `pyenv`/`goenv`/`nvm`, `libpq`, etc.
+- `~/.local.zsh` — PATHs, `goenv`/`nvm`, `libpq`, etc.
 - `~/.gitconfig.local` — nome/e-mail do git (gerado pelo installer).
 
 ## Inspirações

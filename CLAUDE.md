@@ -38,7 +38,7 @@ Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfile
 - `config/git/gitconfig` → `~/.gitconfig` (from `setup_git`)
 - `config/git/gitignore_global` → `~/.gitignore_global` (from `setup_git`)
 
-`mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go, both `latest`); the binary itself comes from the Brewfile.
+`mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go + python, all `latest`); the binary itself comes from the Brewfile.
 
 Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired into the installer (`config/homebrew` is consumed by `brew bundle`, not symlinked). Adding a new config means adding the files AND a corresponding `link_dotfile` call.
 
@@ -46,7 +46,7 @@ Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired 
 
 [script/oh_my_zsh](script/oh_my_zsh) installs oh-my-zsh non-destructively (`KEEP_ZSHRC=yes RUNZSH=no CHSH=no`, so it never touches our `.zshrc` or changes the default shell), then git-clones the `zsh-autosuggestions` and `zsh-syntax-highlighting` plugins into `$ZSH_CUSTOM/plugins`. Both steps are idempotent (guarded by directory checks).
 
-The committed `config/zsh/zshrc` is intentionally minimal (oh-my-zsh bootstrap + essential aliases). Machine- or tool-specific setup (pyenv, goenv, nvm, libpq, etc.) belongs in `~/.local.zsh`, which the committed `.zshrc` sources if present — the same local-override pattern as `~/.gitconfig.local`. Don't add machine-specific paths to the tracked `zshrc`.
+The committed `config/zsh/zshrc` is intentionally minimal (oh-my-zsh bootstrap + essential aliases). Machine- or tool-specific setup (goenv, nvm, libpq, etc.) belongs in `~/.local.zsh`, which the committed `.zshrc` sources if present — the same local-override pattern as `~/.gitconfig.local`. Don't add machine-specific paths to the tracked `zshrc`.
 
 ## Git setup quirk
 

@@ -44,7 +44,7 @@ Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired 
 
 ## Shell / zsh setup
 
-[script/oh_my_zsh](script/oh_my_zsh) installs oh-my-zsh non-destructively (`KEEP_ZSHRC=yes RUNZSH=no CHSH=no`, so it never touches our `.zshrc` or changes the default shell), then git-clones the `zsh-autosuggestions` and `zsh-syntax-highlighting` plugins into `$ZSH_CUSTOM/plugins`. Both steps are idempotent (guarded by directory checks).
+[script/oh_my_zsh](script/oh_my_zsh) installs oh-my-zsh non-destructively (`KEEP_ZSHRC=yes RUNZSH=no CHSH=no`, so it never touches our `.zshrc` or changes the default shell). It's idempotent (guarded by a directory check).
 
 The committed `config/zsh/zshrc` is intentionally minimal (oh-my-zsh bootstrap + essential aliases). Machine- or tool-specific setup (goenv, nvm, libpq, etc.) belongs in `~/.local.zsh`, which the committed `.zshrc` sources if present — the same local-override pattern as `~/.gitconfig.local`. Don't add machine-specific paths to the tracked `zshrc`.
 

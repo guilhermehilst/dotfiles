@@ -18,8 +18,7 @@ O `./script/install` precisa rodar a partir da raiz do repositório. Ele:
 2. Pergunta interativamente nome e e-mail do git e gera o `~/.gitconfig.local`.
 3. Instala o Homebrew (se faltar) e roda `brew bundle` com o
    [Brewfile](config/homebrew/Brewfile).
-4. Instala o oh-my-zsh e os plugins `zsh-autosuggestions` e
-   `zsh-syntax-highlighting`.
+4. Instala o oh-my-zsh.
 5. Aplica os `defaults` do macOS (Finder, Dock, screenshots, teclado, etc.).
 6. Cria os symlinks das configs para o `$HOME`.
 

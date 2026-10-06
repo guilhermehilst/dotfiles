@@ -1,5 +1,6 @@
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*), Bash(git reset:*), Bash(git apply:*), Bash(git branch:*), Bash(git log:*)
+model: sonnet
 description: Criar um ou mais commits git seguindo Conventional Commits
 ---
 

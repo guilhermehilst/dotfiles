@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git branch:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git rev-parse:*), Bash(git push:*), Bash(gh auth:*), Bash(gh repo view:*), Bash(gh pr list:*), Bash(gh pr view:*), Bash(gh pr create:*), Bash(gh pr edit:*), Bash(mktemp:*), Bash(rm:*), Read, Write, Glob, AskUserQuestion
 argument-hint: "[branch-base] [-- notas extras]"
+model: sonnet
 description: Abrir Pull Request no GitHub com descrição gerada dos commits
 ---
 

@@ -44,6 +44,7 @@ cask "1password"                  # Gerenciador de senhas
 cask "1password-cli"              # CLI do 1Password
 cask "claude"                     # App desktop do Claude
 cask "claude-code"                # Assistente de código no terminal
+cask "docker-desktop"             # Docker Desktop (containers)
 cask "font-iosevka-nerd-font"     # Fonte Iosevka com ícones (Nerd Font)
 cask "font-meslo-lg-nerd-font"    # Fonte Meslo LG com ícones (Nerd Font)
 cask "font-ubuntu-mono-nerd-font" # Fonte Ubuntu Mono com ícones (Nerd Font)
@@ -51,7 +52,6 @@ cask "ghostty"                    # Emulador de terminal com aceleração por GP
 cask "homebrew-app"               # GUI oficial do Homebrew
 cask "karabiner-elements"         # Customização de teclado
 cask "obsidian"                   # Base de conhecimento em Markdown local
-cask "orbstack"                   # Docker e VMs Linux leves (substitui Docker Desktop)
 cask "raycast"                    # Launcher e produtividade (substitui Spotlight)
 cask "sublime-text"               # Editor de texto e markup (GUI)
 cask "tableplus"                  # GUI para bancos de dados relacionais

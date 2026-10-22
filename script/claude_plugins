@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# Install Claude Code plugins
+#
+# Exits the script immediately if a command exits with a non-zero status (indicating an error).
+set -e
+
+info "============================================="
+info "        Installing Claude Code Plugins"
+info "============================================="
+
+# Marketplaces no formato <nome>=<owner/repo do GitHub>.
+CLAUDE_MARKETPLACES=(
+  "claude-plugins-official=anthropics/claude-plugins-official"
+  "goland-claude-marketplace=JetBrains/go-modern-guidelines"
+)
+
+# Plugins no formato <plugin>@<marketplace>.
+CLAUDE_PLUGINS=(
+  "ruby-lsp@claude-plugins-official"
+  "lua-lsp@claude-plugins-official"
+  "modern-go-guidelines@goland-claude-marketplace"
+)
+
+# Arquivo é carregado via source pelo script/install: return (e não exit) para
+# não derrubar o restante da instalação.
+if ! command -v claude >/dev/null 2>&1; then
+  fail "✘ claude não encontrado, pulando plugins (instale o cask claude-code)"
+  return 0
+fi
+
+# Falhas aqui só geram aviso: com set -e, um plugin com problema (rede, login,
+# nome errado) abortaria o install inteiro.
+installed_marketplaces=$(claude plugin marketplace list --json || true)
+for entry in "${CLAUDE_MARKETPLACES[@]}"; do
+  name="${entry%%=*}"
+  repo="${entry#*=}"
+  step_green "Configurando marketplace $name"
+  if grep -q "\"name\": \"$name\"" <<<"$installed_marketplaces"; then
+    success "✔ $name já configurado"
+  elif claude plugin marketplace add "$repo"; then
+    success "✔ $name adicionado"
+  else
+    fail "✘ não foi possível adicionar $name"
+  fi
+done
+
+installed_plugins=$(claude plugin list --json || true)
+for plugin in "${CLAUDE_PLUGINS[@]}"; do
+  step_green "Instalando plugin $plugin"
+  if grep -q "\"id\": \"$plugin\"" <<<"$installed_plugins"; then
+    success "✔ $plugin já instalado"
+  elif claude plugin install "$plugin"; then
+    success "✔ $plugin instalado"
+  else
+    fail "✘ não foi possível instalar $plugin"
+  fi
+done

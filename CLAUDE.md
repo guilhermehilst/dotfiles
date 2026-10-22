@@ -15,7 +15,7 @@ Personal macOS dotfiles, successor to the older [laptop](https://github.com/guil
 
 ## Architecture: what actually gets installed
 
-[script/install](script/install) is the entrypoint. It sources, in order: [script/helpers/utils](script/helpers/utils) (logging + `link_dotfile`/`move_to_backup_dir` helpers), [script/xcode_select](script/xcode_select), [script/setup_git](script/setup_git), [script/homebrew](script/homebrew), [script/oh_my_zsh](script/oh_my_zsh), [script/set_macos_defaults](script/set_macos_defaults), then [script/link_dotfiles](script/link_dotfiles).
+[script/install](script/install) is the entrypoint. It sources, in order: [script/helpers/utils](script/helpers/utils) (logging + `link_dotfile`/`move_to_backup_dir` helpers), [script/xcode_select](script/xcode_select), [script/setup_git](script/setup_git), [script/homebrew](script/homebrew), [script/oh_my_zsh](script/oh_my_zsh), [script/set_macos_defaults](script/set_macos_defaults), [script/link_dotfiles](script/link_dotfiles), [script/claude_plugins](script/claude_plugins), then [script/post_install_info](script/post_install_info).
 
 [script/homebrew](script/homebrew) installs Homebrew non-interactively if `brew` is missing, then runs `brew bundle` against [config/homebrew/Brewfile](config/homebrew/Brewfile). This is how the actual tooling (`mise`, neovim, rtk, eza, ripgrep, the terminal casks, etc.) lands on the machine — the Brewfile is *read* by `brew bundle`, never symlinked.
 
@@ -57,6 +57,8 @@ The committed `config/zsh/zshrc` is intentionally minimal (oh-my-zsh bootstrap +
 `config/claude/` is symlinked to `~/.claude/` as a whole, but [.gitignore](.gitignore) tracks only `commands/`, `skills/`, and `agents/` under it. Everything else (sessions, projects, todos, telemetry, history, plugins, etc.) is machine-local state and intentionally ignored.
 
 When adding a Claude command or skill, place it in `config/claude/commands/<name>.md` or `config/claude/skills/<skill-name>/SKILL.md` and it'll be tracked automatically.
+
+Claude Code plugins are installed by [script/claude_plugins](script/claude_plugins) via the `claude plugin` CLI (idempotent: skips what `claude plugin list --json` already reports). To add a plugin, append `<plugin>@<marketplace>` to `CLAUDE_PLUGINS`; if the marketplace is new, also add `<name>=<owner/repo>` to `CLAUDE_MARKETPLACES`. It runs after `link_dotfiles` so the plugins land in the already-linked `~/.claude`, and it skips itself (`return 0`, since it's sourced) when `claude` isn't installed.
 
 ## Conventions
 

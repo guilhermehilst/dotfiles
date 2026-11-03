@@ -62,6 +62,8 @@ Claude Code plugins are installed by [script/claude_plugins](script/claude_plugi
 
 The `tmux-status` plugin lives in its own repo, [guilhermehilst/claude-tmux-status](https://github.com/guilhermehilst/claude-tmux-status): its hooks write the Claude Code state into the tmux window option `@claude_status`, and [config/tmux/tmux.conf](config/tmux/tmux.conf) renders it as a colored `●` next to `#W` (turning `done` into `idle` when the window is visited).
 
+The `macos-notify` plugin lives in [guilhermehilst/claude-macos-notify](https://github.com/guilhermehilst/claude-macos-notify): its hooks show a macOS notification with sound (via `terminal-notifier`, from the Brewfile) when Claude finishes or is waiting for you, skipping it when the session's Ghostty/tmux window is already in focus.
+
 ## Conventions
 
 - Commit messages follow Conventional Commits in **Portuguese (BR)**. See [config/claude/commands/commit.md](config/claude/commands/commit.md) for the exact rules: imperative verbs (`adiciona`, not `adicionado`), description ≤50 chars including `tipo(escopo):`, no Claude/AI attribution.

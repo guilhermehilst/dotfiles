@@ -30,6 +30,7 @@ brew "ripgrep"                    # Busca em código (grep mais rápido)
 brew "rtk"                        # Proxy de CLI que reduz consumo de tokens de LLM
 brew "shellcheck"                 # Análise estática de scripts shell
 brew "shfmt"                      # Formatador de scripts shell
+brew "terminal-notifier"          # Notificações do macOS via CLI (plugin macos-notify do Claude)
 brew "the_silver_searcher"        # Busca em código (ag, similar ao ack)
 brew "tig"                        # Interface de texto para repositórios Git
 brew "tmux"                       # Multiplexador de terminal

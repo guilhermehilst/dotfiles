@@ -13,6 +13,7 @@ info "============================================="
 CLAUDE_MARKETPLACES=(
   "claude-plugins-official=anthropics/claude-plugins-official"
   "goland-claude-marketplace=JetBrains/go-modern-guidelines"
+  "claude-tmux-status=guilhermehilst/claude-tmux-status"
 )
 
 # Plugins no formato <plugin>@<marketplace>.
@@ -20,6 +21,7 @@ CLAUDE_PLUGINS=(
   "ruby-lsp@claude-plugins-official"
   "lua-lsp@claude-plugins-official"
   "modern-go-guidelines@goland-claude-marketplace"
+  "tmux-status@claude-tmux-status"
 )
 
 # Arquivo é carregado via source pelo script/install: return (e não exit) para

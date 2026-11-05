@@ -90,7 +90,7 @@ assert total(itens) == 90.00
 
 ### 10. Mock só na fronteira
 
-Substitua apenas o que é lento, não determinístico ou externo: I/O, tempo, rede, serviços de terceiros. Nunca mocke o objeto sob teste nem colaboradores internos baratos — use os reais.
+Substitua apenas o que é lento, não determinístico ou externo: I/O, tempo, rede, serviços de terceiros. Nunca mocke o objeto sob teste nem colaboradores internos baratos — use os reais. Detalhes em [Mocks e doubles](#mocks-e-doubles).
 
 ### 11. Sem `sleep`
 
@@ -99,3 +99,39 @@ Não espere processos assíncronos com pausas fixas. Use os mecanismos de sincro
 ### 12. Flaky é bug
 
 Teste que falha às vezes está apontando um problema (no teste ou no código). Investigue e corrija a causa — quase sempre um dos itens de Determinismo. Nunca adicione retry nem marque como "pular" para silenciar.
+
+## Mocks e doubles
+
+Complementam o item 10. Um double serve para isolar, não para ser testado.
+
+### 13. Não asserte o mock
+
+Verifique o comportamento do código real, não que o double existe ou foi chamado. A exceção é quando a chamada na fronteira **é** o comportamento (ex.: "envia o e-mail de boas-vindas").
+
+```
+# Ruim — prova que o fake funciona, não o cálculo
+calculadora = fake(Frete, calcular: 15.0)
+pedido = Pedido(itens, frete: calculadora)
+assert calculadora.calcular foi chamado
+
+# Bom — prova o efeito no objeto sob teste
+calculadora = fake(Frete, calcular: 15.0)
+pedido = Pedido(itens, frete: calculadora)
+assert pedido.total == 115.00
+```
+
+### 14. Sem métodos só para teste em produção
+
+Não adicione a classes de produção métodos que só os testes chamam (`reset!`, `limpar_tudo`, getters de estado interno). Limpeza e inspeção vão para helpers de teste. Método em produção parece API pública e pode ser chamado por engano.
+
+### 15. Entenda antes de mockar
+
+Antes de substituir um método, saiba que efeitos colaterais ele tem e se o teste depende deles. Mocke no nível mais baixo possível — a parte lenta ou externa (HTTP, disco, fila) —, não o método de alto nível cujo efeito o teste precisa. Na dúvida, rode primeiro com a implementação real e observe o que acontece.
+
+### 16. Double completo
+
+O double reproduz a estrutura real (todos os campos que o sistema consome), não só os campos que o teste olha. Double parcial passa no teste e quebra na integração quando outro trecho do código acessa um campo omitido. Baseie-se no contrato real (docs, schema, resposta de exemplo).
+
+### 17. Mock complexo demais é sinal
+
+Se o setup dos doubles é maior que o teste, ou o teste quebra sempre que o mock muda, prefira um teste de integração com componentes reais — ou simplifique o design (ver "Travou? Escute o teste" no SKILL.md).

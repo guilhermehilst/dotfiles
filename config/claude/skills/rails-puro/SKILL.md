@@ -101,6 +101,8 @@ Nunca refatore padrões legados sem o usuário pedir explicitamente. O manifesto
 
 Leia o arquivo de referência adequado **antes** de escrever código. Não tente lembrar de memória.
 
+O *processo* de desenvolvimento (red-green-refactor) segue a skill `tdd`; [TESTING.md](TESTING.md) define apenas *como* escrever os testes (MiniTest, fixtures, etc.).
+
 | Tarefa do usuário                            | Arquivo a ler                                                                |
 |----------------------------------------------|------------------------------------------------------------------------------|
 | Criar/alterar migration ou schema            | [MIGRATIONS.md](MIGRATIONS.md)                                               |

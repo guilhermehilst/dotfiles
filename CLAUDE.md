@@ -38,7 +38,7 @@ Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfile
 - `config/git/gitconfig` → `~/.gitconfig` (from `setup_git`)
 - `config/git/gitignore_global` → `~/.gitignore_global` (from `setup_git`)
 
-`mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go + python, all `latest`); the binary itself comes from the Brewfile.
+`mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go + python + node, all `latest`); the binary itself comes from the Brewfile.
 
 Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired into the installer (`config/homebrew` is consumed by `brew bundle`, not symlinked). Adding a new config means adding the files AND a corresponding `link_dotfile` call.
 

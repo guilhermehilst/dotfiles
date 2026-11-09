@@ -15,6 +15,7 @@ CLAUDE_MARKETPLACES=(
   "goland-claude-marketplace=JetBrains/go-modern-guidelines"
   "claude-tmux-status=guilhermehilst/claude-tmux-status"
   "claude-macos-notify=guilhermehilst/claude-macos-notify"
+  "chrome-devtools-plugins=ChromeDevTools/chrome-devtools-mcp"
 )
 
 # Plugins no formato <plugin>@<marketplace>.
@@ -24,6 +25,7 @@ CLAUDE_PLUGINS=(
   "modern-go-guidelines@goland-claude-marketplace"
   "tmux-status@claude-tmux-status"
   "macos-notify@claude-macos-notify"
+  "chrome-devtools-mcp@chrome-devtools-plugins"
 )
 
 # Arquivo é carregado via source pelo script/install: return (e não exit) para

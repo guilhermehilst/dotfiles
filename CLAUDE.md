@@ -64,6 +64,8 @@ The `tmux-status` plugin lives in its own repo, [guilhermehilst/claude-tmux-stat
 
 The `macos-notify` plugin lives in [guilhermehilst/claude-macos-notify](https://github.com/guilhermehilst/claude-macos-notify): its hooks show a macOS notification with sound (via `terminal-notifier`, from the Brewfile) when Claude finishes or is waiting for you, skipping it when the session's Ghostty/tmux window is already in focus.
 
+The `chrome-devtools-mcp` plugin (from [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp)) gives Claude control of Chrome (navigate, click, screenshots, console/network/performance). Its MCP server runs via `npx`, so it depends on the `node` installed by mise.
+
 ## Conventions
 
 - Commit messages follow Conventional Commits in **Portuguese (BR)**. See [config/claude/commands/commit.md](config/claude/commands/commit.md) for the exact rules: imperative verbs (`adiciona`, not `adicionado`), description ≤50 chars including `tipo(escopo):`, no Claude/AI attribution.

@@ -26,7 +26,49 @@ elif [ -x /usr/local/bin/brew ]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-# Install packages from the Brewfile
-step_green "Instalando pacotes do Brewfile"
-brew bundle --file="$CONFIG_PATH/homebrew/Brewfile"
-success "✔ Pacotes do Brewfile instalados"
+BREWFILE="$CONFIG_PATH/homebrew/Brewfile"
+
+# Without a TTY (or with DOTFILES_BREW_ALL=1) install the whole Brewfile
+if [ ! -t 0 ] || [ "${DOTFILES_BREW_ALL:-}" = "1" ]; then
+  step_green "Instalando todos os pacotes do Brewfile"
+  brew bundle --file="$BREWFILE"
+  success "✔ Pacotes do Brewfile instalados"
+  return 0
+fi
+
+# fzf is needed for the package checklist
+if ! command -v fzf >/dev/null 2>&1; then
+  step_green "Instalando fzf para a seleção de pacotes"
+  brew install fzf
+fi
+
+# Let the user pick which Brewfile entries to install (all pre-selected).
+# Unselected packages are just skipped; nothing is uninstalled.
+step_green "Selecione os pacotes do Brewfile"
+fzf_status=0
+# ENTER with nothing marked aborts (otherwise fzf returns the line under the cursor).
+# $FZF_SELECT_COUNT is expanded by fzf, hence the single quotes.
+# shellcheck disable=SC2016
+selected=$(grep -E '^(brew|cask) ' "$BREWFILE" | fzf --multi \
+  --pointer '▶' --marker '✔ ' --gutter ' ' \
+  --bind 'load:select-all,space:toggle+down,ctrl-a:select-all,ctrl-d:deselect-all' \
+  --bind 'enter:transform:[ "$FZF_SELECT_COUNT" -eq 0 ] && echo abort || echo accept' \
+  --header 'ESPAÇO/TAB marca · CTRL-A marca todos · CTRL-D desmarca todos · ENTER confirma · ESC pula' \
+  --prompt 'Pacotes> ' --height 80% --reverse) || fzf_status=$?
+
+if [ "$fzf_status" -ne 0 ] || [ -z "$selected" ]; then
+  user "ℹ Nenhum pacote selecionado, pulando brew bundle"
+  return 0
+fi
+
+# Taps are always kept so the selected formulae/casks can be resolved
+selected_brewfile=$(mktemp -t Brewfile)
+{
+  grep -E '^tap ' "$BREWFILE" || true
+  printf '%s\n' "$selected"
+} >"$selected_brewfile"
+
+step_green "Instalando $(printf '%s\n' "$selected" | wc -l | tr -d ' ') pacotes selecionados"
+brew bundle --file="$selected_brewfile"
+rm -f "$selected_brewfile"
+success "✔ Pacotes selecionados instalados"

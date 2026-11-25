@@ -50,6 +50,7 @@ cask "font-iosevka-nerd-font"     # Fonte Iosevka com ícones (Nerd Font)
 cask "font-meslo-lg-nerd-font"    # Fonte Meslo LG com ícones (Nerd Font)
 cask "font-ubuntu-mono-nerd-font" # Fonte Ubuntu Mono com ícones (Nerd Font)
 cask "ghostty"                    # Emulador de terminal com aceleração por GPU
+cask "hammerspoon"                # Automação do macOS via Lua (substitui Karabiner)
 cask "homebrew-app"               # GUI oficial do Homebrew
 cask "karabiner-elements"         # Customização de teclado
 cask "obsidian"                   # Base de conhecimento em Markdown local

@@ -35,6 +35,7 @@ Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfile
 - `config/gh/config.yml` → `~/.config/gh/config.yml`
 - `config/tig/tigrc` → `~/.tigrc`
 - `config/karabiner/karabiner.json` → `~/.config/karabiner/karabiner.json`
+- `config/hammerspoon/init.lua` → `~/.hammerspoon/init.lua`
 - `config/git/gitconfig` → `~/.gitconfig` (from `setup_git`)
 - `config/git/gitignore_global` → `~/.gitignore_global` (from `setup_git`)
 

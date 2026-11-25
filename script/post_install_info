@@ -61,3 +61,20 @@ user "     public key from the item to GitHub/GitLab/servers as needed."
 user "   • Verify with: ssh-add -l  (should list the 1Password key)"
 
 printf "\n"
+step_blue "Hammerspoon"
+
+bold "1. Grant Accessibility permission"
+user "   • Open Hammerspoon, then go to System Settings → Privacy &"
+user "     Security → Accessibility and enable \"Hammerspoon\"."
+
+bold "2. Launch at login"
+user "   • Hammerspoon menu bar icon → Preferences… → check"
+user "     \"Launch Hammerspoon at login\"."
+
+bold "3. Reload the config"
+user "   • Menu bar icon → Reload Config (needed after editing"
+user "     config/hammerspoon/init.lua)."
+user "   • If Karabiner-Elements is still installed, quit it to avoid"
+user "     conflicting shortcuts."
+
+printf "\n"

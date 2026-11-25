@@ -19,6 +19,8 @@ Personal macOS dotfiles, successor to the older [laptop](https://github.com/guil
 
 [script/homebrew](script/homebrew) installs Homebrew non-interactively if `brew` is missing, installs `fzf` if needed, and opens an `fzf --multi` checklist of every `brew`/`cask` line in [config/homebrew/Brewfile](config/homebrew/Brewfile) (all pre-selected and marked with `✔`; `tap` lines are always kept). SPACE/TAB toggle, CTRL-A selects all, CTRL-D deselects all. Only the selected lines are written to a temp Brewfile and passed to `brew bundle`; unselected packages are skipped, never uninstalled. ESC, or ENTER with nothing marked, skips the bundle step. Without a TTY, or with `DOTFILES_BREW_ALL=1`, it installs the whole Brewfile. This is how the actual tooling (`mise`, neovim, rtk, eza, ripgrep, the terminal casks, etc.) lands on the machine — the Brewfile is *read* by `brew bundle`, never symlinked.
 
+[script/set_macos_defaults](script/set_macos_defaults) also remaps Caps Lock → Control on every keyboard (including ones connected later) via the LaunchAgent [config/launchd/com.guilhermehilst.capslock-to-control.plist](config/launchd/com.guilhermehilst.capslock-to-control.plist), which runs `hidutil property --set UserKeyMapping` at each login. The plist is *copied* (not symlinked — launchd may ignore symlinked agents) into `~/Library/LaunchAgents` and reloaded with `launchctl bootout`/`bootstrap`, so re-running the install picks up edits. It doesn't show up in System Settings → Modifier Keys.
+
 `link_dotfile <name> <source> <dest>` symlinks `$DOTFILES_ROOT/<source>` → `$HOME/<dest>`. If the destination already exists and isn't already the correct symlink, it's moved to `~/.dotfiles-backup/<dest>` first.
 
 Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfiles), except the two git ones which come from [script/setup_git](script/setup_git)):
@@ -41,7 +43,7 @@ Currently-active symlinks (defined in [script/link_dotfiles](script/link_dotfile
 
 `mise` versions are declared in [config/mise/config.toml](config/mise/config.toml) (ruby + go + python + node, all `latest`); the binary itself comes from the Brewfile.
 
-Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired into the installer (`config/homebrew` is consumed by `brew bundle`, not symlinked). Adding a new config means adding the files AND a corresponding `link_dotfile` call.
+Of the `config/*` directories, only `alacritty` is scaffolded but **not** wired into the installer (`config/homebrew` is consumed by `brew bundle` and `config/launchd` is copied by `set_macos_defaults`, neither is symlinked). Adding a new config means adding the files AND a corresponding `link_dotfile` call.
 
 ## Shell / zsh setup
 

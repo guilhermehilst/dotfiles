@@ -58,6 +58,15 @@ defaults write com.apple.menuextra.battery ShowPercent -string "YES"
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
+# Keyboard: Caps Lock → Control on every keyboard, including ones connected later.
+# A LaunchAgent re-applies the hidutil mapping at each login (it doesn't survive reboots).
+# Copied instead of symlinked: launchd may ignore symlinked agents at login.
+CAPSLOCK_AGENT="com.guilhermehilst.capslock-to-control"
+mkdir -p ~/Library/LaunchAgents
+cp "$CONFIG_PATH/launchd/$CAPSLOCK_AGENT.plist" ~/Library/LaunchAgents/
+launchctl bootout "gui/$(id -u)/$CAPSLOCK_AGENT" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" ~/Library/LaunchAgents/$CAPSLOCK_AGENT.plist
+
 # Set the icon size of Dock items to 36 pixels
 defaults write com.apple.dock tilesize -int 48
 

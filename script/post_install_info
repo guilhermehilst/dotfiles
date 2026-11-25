@@ -78,3 +78,12 @@ user "   • If Karabiner-Elements is still installed, quit it to avoid"
 user "     conflicting shortcuts."
 
 printf "\n"
+step_blue "Claude Code"
+
+bold "1. Disable native notifications"
+user "   • The macos-notify plugin already handles notifications; the"
+user "     native ones show up as duplicates through Ghostty."
+user "   • Run claude, type /config, and set Notifications to"
+user "     \"notifications_disabled\"."
+
+printf "\n"

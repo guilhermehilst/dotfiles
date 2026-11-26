@@ -18,7 +18,7 @@ printf "\n"
 step_blue "Raycast"
 
 bold "1. Import the Raycast configuration"
-user "   • Double-click config/raycast/Raycast-X-2026-11-25 17.22.14.rayconfig (or open"
+user "   • Double-click config/raycast/Raycast-X-2026-11-26 15.03.39.rayconfig (or open"
 user "     Raycast → Settings → Advanced → Import), then enter the"
 user "     export password when prompted."
 
